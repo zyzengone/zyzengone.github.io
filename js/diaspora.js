@@ -2,7 +2,7 @@ var Home = location.href,
     Pages = 4,
     xhr,
     xhrUrl = '';
-
+<script src="C:\Users\zyzeng\blog\hexo\themes\hexo-theme-diaspora\source\js\md5.min.js"></script>
 var Diaspora = {
     L: function(url, f, err) {
         if (url == xhrUrl) {
@@ -472,7 +472,7 @@ $(function() {
                   repo: comment.data('r'),
                   owner: comment.data('o'),
                   admin: comment.data('a'),
-                  id: location.pathname,
+                  id: md5(location.pathname),
                   distractionFreeMode: comment.data('d')
                 })
                 $(".comment").removeClass("link")
