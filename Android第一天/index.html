@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="zyzengone,"> 
-    
+    <meta name="description" content="一、编辑框1234567&amp;lt;EditText    android:layout_width=&amp;quot;match_parent&amp;quot;    android:layout_height=,"> 
     <meta name="author" content="zeng yang"> 
     <link rel="alternative" href="atom.xml" title="Zy&#39;blog" type="application/atom+xml"> 
     <link rel="icon" href="/img/logo.png"> 
@@ -26,7 +26,7 @@
     <div class="bar" style="width: 0;"></div>
     <a class="icon-home image-icon" href="javascript:;"></a>
     <div title="播放/暂停" class="icon-play"></div>
-    <h3 class="subtitle">android</h3>
+    <h3 class="subtitle">Android界面基础</h3>
     <div class="social">
         <!--<div class="like-icon">-->
             <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -43,7 +43,7 @@
     <div class="section">
         <div class="article">
     <div class="main">
-        <h1 class="title">android</h1>
+        <h1 class="title">Android界面基础</h1>
         <div class="stuff">
             <span>十月 28, 2018</span>
             
@@ -52,14 +52,27 @@
 
         </div>
         <div class="content markdown">
-            <h2 id="Android界面UI控制"><a href="#Android界面UI控制" class="headerlink" title="Android界面UI控制"></a>Android界面UI控制</h2><h3 id="Android界面控制分为四种：xml布局文件配置，java代码中控制，混合控制，自定义view"><a href="#Android界面控制分为四种：xml布局文件配置，java代码中控制，混合控制，自定义view" class="headerlink" title="Android界面控制分为四种：xml布局文件配置，java代码中控制，混合控制，自定义view"></a>Android界面控制分为四种：xml布局文件配置，java代码中控制，混合控制，自定义view</h3><h4 id="第一种："><a href="#第一种：" class="headerlink" title="第一种："></a>第一种：</h4><ul>
+            <h2 id="Android界面UI控制"><a href="#Android界面UI控制" class="headerlink" title="Android界面UI控制"></a>Android界面UI控制</h2><h3 id="Android界面控制"><a href="#Android界面控制" class="headerlink" title="Android界面控制"></a>Android界面控制</h3><ol>
+<li>xml布局文件配置</li>
+<li>java代码中控制</li>
+<li>混合控制</li>
+<li>自定义view</li>
+</ol>
+<h3 id="xml布局文件配置："><a href="#xml布局文件配置：" class="headerlink" title="xml布局文件配置："></a>xml布局文件配置：</h3><ul>
 <li>Android工程目录的res/layout中编写xml(activity_main)布局文件</li>
 <li><p>然后在activity中使用java代码显示xml布局文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setContentView(R.layout.activity_main)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>oncreate方法是activity页面创建执行的方法</p>
+<li><p>oncreate方法是activity页面创建时执行的方法。</p>
 </li>
 </ul>
+<h3 id="完全使用java代码控制界面"><a href="#完全使用java代码控制界面" class="headerlink" title="完全使用java代码控制界面"></a>完全使用java代码控制界面</h3><ul>
+<li>用的较少</li>
+</ul>
+<h3 id="混合控制"><a href="#混合控制" class="headerlink" title="混合控制"></a>混合控制</h3><ul>
+<li>少</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>安卓界面主要分工给xml配置文件来写，实现java代码主要实现业务逻辑，xml主要用于界面。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
@@ -80,7 +93,7 @@
     </div>
     
         <div class="side">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Android界面UI控制"><span class="toc-number">1.</span> <span class="toc-text">Android界面UI控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android界面控制分为四种：xml布局文件配置，java代码中控制，混合控制，自定义view"><span class="toc-number">1.1.</span> <span class="toc-text">Android界面控制分为四种：xml布局文件配置，java代码中控制，混合控制，自定义view</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第一种："><span class="toc-number">1.1.1.</span> <span class="toc-text">第一种：</span></a></li></ol></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Android界面UI控制"><span class="toc-number">1.</span> <span class="toc-text">Android界面UI控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android界面控制"><span class="toc-number">1.1.</span> <span class="toc-text">Android界面控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xml布局文件配置："><span class="toc-number">1.2.</span> <span class="toc-text">xml布局文件配置：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#完全使用java代码控制界面"><span class="toc-number">1.3.</span> <span class="toc-text">完全使用java代码控制界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#混合控制"><span class="toc-number">1.4.</span> <span class="toc-text">混合控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
         </div>
     
 </div>
