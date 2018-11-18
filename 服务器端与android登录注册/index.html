@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zy&#39;blog</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="zyzengone,"> 
+    
+    <meta name="author" content="zeng yang"> 
+    <link rel="alternative" href="atom.xml" title="Zy&#39;blog" type="application/atom+xml"> 
+    <link rel="icon" href="/article/img/logo.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/article/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle"></h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title"></h1>
+        <div class="stuff">
+            <span>十一月 14, 2018</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h1 id="Android与服务器端的通信实现登录注册"><a href="#Android与服务器端的通信实现登录注册" class="headerlink" title="Android与服务器端的通信实现登录注册"></a>Android与服务器端的通信实现登录注册</h1><h2 id="配置服务器环境"><a href="#配置服务器环境" class="headerlink" title="配置服务器环境"></a>配置服务器环境</h2><p>  首先服务器是搬瓦工的centos6 64位，配置java web环境即配置jdk，安装tomcat以及mysql按照这篇帖子<a href="http://facer.me/572.html" target="_blank" rel="noopener">搬瓦工java环境搭建</a> 注意要删除自带的mysql的两个文件夹。</p>
+<h2 id="服务器端代码编写"><a href="#服务器端代码编写" class="headerlink" title="服务器端代码编写"></a>服务器端代码编写</h2><p>  主要写三个方面：</p>
+<ul>
+<li>数据库</li>
+<li>LoginServlet</li>
+<li>RegisterServlet<ol>
+<li>服务器mysql部分<br>首先在服务器的mysql创建一个命名为zeng<br>再创建一个表，命名为user，用来存储android端注册成功的用户信息<br>记得进行授权：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//例如，你想root用户使用mypassword从任何主机连接到mysql服务器的话。</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;%&apos; IDENTIFIED BY &apos;服务器mysql密码&apos; WITH GRANT OPTION;</span><br><span class="line">FLUSH   PRIVILEGES;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li><p>配置连接数据库的信息,</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static final String DB_USER = &quot;root&quot;;//数据库用户名</span><br><span class="line">public static final String DB_PASSWORD = &quot;******&quot;;//数据库密码</span><br><span class="line">public static final String DB_DATABASE = &quot;zeng&quot;;//数据库名</span><br><span class="line">public static final String DB_URL = &quot;jdbc:mysql://104.243.30.196:3306/zeng&quot;;//jdbc地址:服务器ip+数据库名</span><br><span class="line">public static final String DB_JDBC_MYSQL = &quot;com.mysql.jdbc.Driver&quot;;//jdbc mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>封装数据库jdbc连接方法，创建表以及增删改查的方法</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">public class DBUtils &#123;</span><br><span class="line">private Connection connection = null;</span><br><span class="line">private Statement statement = null;</span><br><span class="line"></span><br><span class="line">public DBUtils() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">public DBUtils(String jdbc, String url, String user, String password) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        Class.forName(jdbc);</span><br><span class="line">        connection = DriverManager.getConnection(url, user, password);</span><br><span class="line">        statement = connection.createStatement();</span><br><span class="line">    &#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 创建表</span><br><span class="line"> * @param createSql</span><br><span class="line"> */</span><br><span class="line">public void createTable(String createSql) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        statement.execute(createSql);</span><br><span class="line">    &#125; catch (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 插入数据</span><br><span class="line"> * @param table</span><br><span class="line"> * @param columns</span><br><span class="line"> * @param args</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public int insert(String table, String[] columns, String[] args) &#123;</span><br><span class="line">    if(columns != null &amp;&amp; columns.length ==  0) &#123;</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line">    if(args != null &amp;&amp; columns.length != args.length) &#123;</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line">    StringBuilder sql = new StringBuilder();</span><br><span class="line">    sql.append(&quot;INSERT INTO &quot;);</span><br><span class="line">    sql.append(table + &quot;(&quot;);</span><br><span class="line">    for(int i = 0; i &lt; columns.length - 1;i++) &#123;</span><br><span class="line">        sql.append(columns[i]);</span><br><span class="line">        sql.append(&quot;,&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    sql.append(columns[columns.length - 1]);</span><br><span class="line">    sql.append(&quot;) VALUES(&quot;);</span><br><span class="line">    for (int i = 0; i &lt; args.length - 1; i++) &#123;</span><br><span class="line">        sql.append(&quot;?,&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    sql.append(&quot;?)&quot;);</span><br><span class="line">    ResultSet rs = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(),Statement.RETURN_GENERATED_KEYS);</span><br><span class="line">        for (int i = 1; i &lt;= args.length; i++) &#123;</span><br><span class="line">            preparedStatement.setString(i, args[i - 1]);</span><br><span class="line">        &#125;</span><br><span class="line">        preparedStatement.executeUpdate();</span><br><span class="line">        rs = preparedStatement.getGeneratedKeys();</span><br><span class="line">        if (rs.next()) &#123;</span><br><span class="line">            return rs.getInt(1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;finally &#123;</span><br><span class="line">        if (rs != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                rs.close();</span><br><span class="line">            &#125; catch (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建数据库管理类DBMannager，包括创建表，对获取的用户email，密码写入数据库。其中要对数据进行json处理<br>5.</p>
+</li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://link.hhtjim.com/163/468176711.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="true" data-ci="f6940eed0b71e5c31234" data-cs="69b7d5cf1903e4a6169076293520182a3bb701a2" data-r="zyzengone.github.io" data-o="zyzengone" data-a="zyzengone" data-d="true">查看评论</div>
+
+
+    </div>
+    
+        <div class="side">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android与服务器端的通信实现登录注册"><span class="toc-number">1.</span> <span class="toc-text">Android与服务器端的通信实现登录注册</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#配置服务器环境"><span class="toc-number">1.1.</span> <span class="toc-text">配置服务器环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#服务器端代码编写"><span class="toc-number">1.2.</span> <span class="toc-text">服务器端代码编写</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/article/js/plugin.js"></script>
+<script src="/article/js/diaspora.js"></script>
+<link rel="stylesheet" href="/article/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/article/photoswipe/default-skin/default-skin.css">
+<script src="/article/photoswipe/photoswipe.min.js"></script>
+<script src="/article/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
