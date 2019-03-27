@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="zyzengone,"> 
-    
+    <meta name="description" content="本次图书馆管理系统开发过程：1.分析表关系表关系比较简单，图书与图书分类为多对一关系，借阅书目与用户为多对一关系，借阅书目与书籍为多对一关系（实际上并没有用到这层关系，因为并没有做前台的借书功能(′,"> 
     <meta name="author" content="zeng yang"> 
     <link rel="alternative" href="atom.xml" title="Zy&#39;blog" type="application/atom+xml"> 
     <link rel="icon" href="/img/logo.png"> 
@@ -45,9 +45,9 @@
     <div class="main">
         <h1 class="title">springboot</h1>
         <div class="stuff">
-            <span>十月 28, 2018</span>
+            <span>三月 27, 2019</span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Android/">Android</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/学习/">学习</a></li></ul>
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/java/">java</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/web/">web</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/学习/">学习</a></li></ul>
 
 
         </div>
@@ -63,7 +63,7 @@
    constraint pk_orderbook_book foreign key (bid) references book (id),
    primary key(id)
 )engine=innodb default charset=utf8;
-</code></pre><p>建立之后如图：<br><img src="https://img-blog.csdnimg.cn/20190325211505823.png" alt="表结构"></p>
+</code></pre><p>建立之后如图：<br><img src="http://i2.bvimg.com/681863/3d846af6fd734d24.png" alt="表结构"></p>
 <h2 id="配置springboot配置文件"><a href="#配置springboot配置文件" class="headerlink" title="配置springboot配置文件"></a>配置springboot配置文件</h2><p>springboot的配置文件主要用来写入数据库驱动用户名密码和其他一些配置  </p>
 <pre><code>#database
 spring.datasource.url=jdbc:mysql://127.0.0.1:3306/library_manage?characterEncoding=UTF-8
