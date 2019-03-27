@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zy&#39;blog</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="zyzengone,"> 
+    
+    <meta name="author" content="zeng yang"> 
+    <link rel="alternative" href="atom.xml" title="Zy&#39;blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/logo.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">布局layout</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">布局layout</h1>
+        <div class="stuff">
+            <span>十月 28, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Android/">Android</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/学习/">学习</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="本次图书馆管理系统开发过程："><a href="#本次图书馆管理系统开发过程：" class="headerlink" title="本次图书馆管理系统开发过程："></a>本次图书馆管理系统开发过程：</h1><h2 id="1-分析表关系"><a href="#1-分析表关系" class="headerlink" title="1.分析表关系"></a>1.分析表关系</h2><p>表关系比较简单，图书与图书分类为多对一关系，借阅书目与用户为多对一关系，借阅书目与书籍为多对一关系（实际上并没有用到这层关系，因为并没有做前台的借书功能(′Д`)）<br>sql语句贴出一个借阅书目的，数据库用的是MySQL：</p>
+<pre><code>create table orderbook(
+   id int(11) not null auto_increment,
+   name varchar(255) default null,
+   uid int(11) default null,
+   bid int(11) default null,
+   borrowdate timestamp default CURRENT_TIMESTAMP,
+   constraint pk_orderbook_user foreign key (uid) references user (id),
+   constraint pk_orderbook_book foreign key (bid) references book (id),
+   primary key(id)
+)engine=innodb default charset=utf8;
+</code></pre><p>建立之后如图：<br><img src="https://img-blog.csdnimg.cn/20190325211505823.png" alt="表结构"></p>
+<h2 id="配置springboot配置文件"><a href="#配置springboot配置文件" class="headerlink" title="配置springboot配置文件"></a>配置springboot配置文件</h2><p>springboot的配置文件主要用来写入数据库驱动用户名密码和其他一些配置  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#database</span><br><span class="line">spring.datasource.url=jdbc:mysql://127.0.0.1:3306/library_manage?characterEncoding=UTF-8</span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=admin</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.jdbc.Driver</span><br><span class="line">spring.jpa.hibernate.ddl-auto = none</span><br><span class="line"></span><br><span class="line">#thymeleaf</span><br><span class="line">spring.thymeleaf.mode=LEGACYHTML5</span><br><span class="line">spring.thymeleaf.encoding=UTF-8</span><br><span class="line">spring.thymeleaf.content-type=text/html</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line"></span><br><span class="line">#context,页面地址访问就以localhost:8080/开头，</span><br><span class="line">#server.context-path=/library,则以localhost:8080/library开头</span><br><span class="line">server.context-path=/</span><br><span class="line"></span><br><span class="line">#设置上传文件大小，默认只有1 m</span><br><span class="line">spring.http.multipart.maxFileSize=100Mb</span><br><span class="line">spring.http.multipart.maxRequestSize=100Mb</span><br><span class="line"></span><br><span class="line">#jpa对实体类的默认字段会把驼峰命名的属性，转换为字段名的时候自动加上下划线。 这个配置的作用就是去掉下划线</span><br><span class="line">#比如属性名称是 createDate, jpa 默认转换为字段名 create_Date。 有了这个配置之后，就会转换为同名字段 createDate</span><br><span class="line">spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl</span><br><span class="line"></span><br><span class="line">#显示 hibernate运行的 sql 语句</span><br><span class="line">spring.jpa.show-sql=true</span><br></pre></td></tr></table></figure>
+<h2 id="3-前端部分"><a href="#3-前端部分" class="headerlink" title="3.前端部分"></a>3.前端部分</h2><p>前端部分采用的是thymeleaf模板引擎和vue.js渲染页面数据和绑定数据（vue这里仅仅是用到了这两个功能，没有用到脚手架），前端样式采用的bootstrap。</p>
+<h3 id="3-1-thymeleaf将网页模块化"><a href="#3-1-thymeleaf将网页模块化" class="headerlink" title="3.1 thymeleaf将网页模块化"></a>3.1 thymeleaf将网页模块化</h3><p>如图，页面目录如下：<br><img src="https://img-blog.csdnimg.cn/20190325213443100.png" alt=""></p>
+<p>admin目录下的页面分别：</p>
+<ul>
+<li>listCategory.html: 显示所有书籍分类的列表  </li>
+<li>editCategory.html: 编辑书籍名字的页面</li>
+<li>listBook.html: 显示分类下书籍列表的页面</li>
+<li>listOrderBook.html: 显示每个用户下借阅书籍列表的页面</li>
+<li>listOrderAll.html: 显示所有借阅的书籍的页面</li>
+<li>listUser.html：显示所有用户列表的页面</li>
+<li>login.html: 登录页面</li>
+</ul>
+<hr>
+<p>include/admin目录下的页面分别为：</p>
+<ul>
+<li>adminHeader.html: 将所有前端页面中用到的一些函数统一写到了这个页面里</li>
+<li>adminNavigator.html 基本每个页面都有的导航栏放在这个页面里</li>
+<li>adminPage.html 分页跳转方法写在这个页面里</li>
+<li>adminFooter.html 页脚</li>
+</ul>
+<p><strong>这样可以使得将页面中通用的部分单独拿出来，通过thymeleaf进行镶嵌</strong></p>
+<hr>
+<p>利用thymeleaf将include/admin中的页面嵌入到admin里的页面中，如下：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">    &lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;head th:include=&quot;include/admin/adminHeader::html(&apos;分类管理&apos;)&quot; &gt;&lt;/head&gt;  //在head中插入adminHeader.html</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">    &lt;div th:replace=&quot;include/admin/adminNavigator::html&quot; &gt;&lt;/div&gt;  //在body的一开头插入导航栏adminNavigator.html</span><br><span class="line">    &lt;div id=&quot;workingplace&quot;&gt;</span><br><span class="line">    	此处省略一万行</span><br><span class="line">    	&lt;div th:replace=&quot;include/admin/adminPage::html&quot; &gt;&lt;/div&gt; //插入分页</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">		&lt;div th:replace=&quot;include/admin/adminFooter::html&quot; &gt;&lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>adminHeader内包含所需要的外部js文件已经css文件，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;template th:fragment=&quot;html(title)&quot; &gt; </span><br><span class="line">	&lt;script src=&quot;js/jquery/2.0.0/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">	&lt;link href=&quot;css/bootstrap/3.3.6/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;</span><br><span class="line">	&lt;script src=&quot;js/bootstrap/3.3.6/bootstrap.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">	&lt;script src=&quot;js/vue/2.5.16/vue.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">	&lt;script src=&quot;js/axios/0.17.1/axios.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">	&lt;script src=&quot;js/moment/2.22.2/moment.js&quot;&gt;&lt;/script&gt; &lt;!-- vue.js 格式化日期用的 --&gt;</span><br><span class="line">	&lt;link href=&quot;css/back/style.css&quot; rel=&quot;stylesheet&quot;&gt;</span><br><span class="line">	&lt;script&gt;</span><br><span class="line">	//判断是否为空</span><br><span class="line">	function checkEmpty(value,text)&#123;</span><br><span class="line">		</span><br><span class="line">		if(null==value || value.length==0)&#123;</span><br><span class="line">			alert(text+ &quot;不能为空&quot;);</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;	</span><br><span class="line">	...</span><br><span class="line">    //此处省略</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">	&lt;/script&gt;	</span><br><span class="line">	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt; 	</span><br><span class="line">	&lt;title th:text=&quot;$&#123;title&#125;&quot; &gt;&lt;/title&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<p>template标签配合<strong>th:include</strong>可以实现加载template模板中的内容，template标签加载后自动忽略。<br>而<strong>th:replace</strong>则是配合div标签自动将当前的div<strong>替换</strong>为<strong>th:replace</strong>的div标签  </p>
+<hr>
+<p>adminNavigator.html的代码  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;navitagorDiv&quot; th:fragment=&quot;html&quot;&gt;</span><br><span class="line">	&lt;nav class=&quot;navbar navbar-default navbar-fixed-top navbar-inverse&quot;&gt;</span><br><span class="line">		&lt;div class=&quot;container-fluid&quot;&gt;</span><br><span class="line">		&lt;div class=&quot;navbar-header&quot;&gt;</span><br><span class="line">			&lt;img style=&quot;margin-left:10px;margin-right:0px&quot; class=&quot;pull-left navbar-brand&quot; src=&quot;img/site/library.jpg&quot; height=&quot;45px&quot;&gt;</span><br><span class="line">			&lt;a class=&quot;navbar-brand&quot; href=&quot;/admin_login&quot;&gt;图书馆管理后台&lt;/a&gt;</span><br><span class="line">			&lt;a class=&quot;navbar-brand&quot; href=&quot;admin_category_list&quot;&gt;分类管理&lt;/a&gt;</span><br><span class="line">			&lt;a class=&quot;navbar-brand&quot; href=&quot;admin_user_list&quot;&gt;用户管理&lt;/a&gt;</span><br><span class="line">			&lt;a class=&quot;navbar-brand&quot; href=&quot;/admin_orderall_list&quot;&gt;借阅管理&lt;/a&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">	&lt;/nav&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>分类列表中的代码片段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;head th:include=&quot;include/admin/adminHeader::html(&apos;分类管理&apos;)&quot; &gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div th:replace=&quot;include/admin/adminNavigator::html&quot; &gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190326100252856.png" alt="导航栏"><br>如上，通过镶嵌，这样每个页面就有一个导航栏  </p>
+<h3 id="3-2-vue进行页面数据渲染"><a href="#3-2-vue进行页面数据渲染" class="headerlink" title="3.2 vue进行页面数据渲染"></a>3.2 vue进行页面数据渲染</h3><p>以listCategory.hmtl书籍分类列表页面为例：<br><img src="https://img-blog.csdnimg.cn/20190327094150563.png" alt="image">  </p>
+<p>上图部分html代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;workingArea&quot; &gt;</span><br><span class="line">    &lt;div class=&quot;listDataTableDiv&quot;&gt;</span><br><span class="line">        &lt;table class=&quot;table table-striped table-bordered table-hover  table-condensed&quot;&gt;</span><br><span class="line">            &lt;thead&gt;</span><br><span class="line">            &lt;tr class=&quot;success&quot;&gt;</span><br><span class="line">                &lt;th&gt;ID&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;分类名称&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;书籍管理&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;编辑&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;删除&lt;/th&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">            &lt;/thead&gt;</span><br><span class="line">            &lt;tbody&gt;</span><br><span class="line">            &lt;tr v-for=&quot;bean in beans &quot;&gt;</span><br><span class="line">                &lt;td&gt;&#123;&#123;bean.id&#125;&#125;&lt;/td&gt;</span><br><span class="line">                &lt;td&gt;</span><br><span class="line">                    &#123;&#123;bean.name&#125;&#125;</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">                &lt;td&gt;</span><br><span class="line">                    &lt;a :href=&quot;&apos;admin_book_list?cid=&apos; + bean.id &quot;&gt;&lt;span class=&quot;glyphicon glyphicon-shopping-cart&quot;&gt;&lt;/span&gt;&lt;/a&gt;</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">                &lt;td&gt;</span><br><span class="line">                    &lt;a :href=&quot;&apos;admin_category_edit?id=&apos; + bean.id &quot;&gt;&lt;span class=&quot;glyphicon glyphicon-edit&quot;&gt;&lt;/span&gt;&lt;/a&gt;</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">                &lt;td&gt;</span><br><span class="line">                    &lt;a href=&quot;#nowhere&quot;  @click=&quot;deleteBean(bean.id)&quot;&gt;&lt;span class=&quot;   glyphicon glyphicon-trash&quot;&gt;&lt;/span&gt;&lt;/a&gt;</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">            &lt;/tbody&gt;</span><br><span class="line">        &lt;/table&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;panel panel-warning addDiv&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;panel-heading&quot;&gt;新增分类&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;panel-body&quot;&gt;</span><br><span class="line">            &lt;table class=&quot;addTable&quot;&gt;</span><br><span class="line">                &lt;tr&gt;</span><br><span class="line">                    &lt;td&gt;分类名称&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;&lt;input  @keyup.enter=&quot;add&quot; v-model.trim=&quot;bean.name&quot; type=&quot;text&quot; class=&quot;form-control&quot;&gt;&lt;/td&gt;</span><br><span class="line">                &lt;/tr&gt;</span><br><span class="line">                &lt;tr class=&quot;submitTR&quot;&gt;</span><br><span class="line">                    &lt;td colspan=&quot;2&quot; align=&quot;center&quot;&gt;</span><br><span class="line">                        &lt;a href=&quot;#nowhere&quot;  @click=&quot;add&quot; class=&quot;btn btn-success&quot;&gt;提交&lt;/a&gt;</span><br><span class="line">                    &lt;/td&gt;</span><br><span class="line">                &lt;/tr&gt;</span><br><span class="line">            &lt;/table&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div th:replace=&quot;include/admin/adminPage::html&quot; &gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>由一个存放书籍列表的表格table，和一个显示添加书籍的表格组成。</p>
+<hr>
+<p>vue脚本部分：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    $(function()&#123;</span><br><span class="line">        var data4Vue = &#123;</span><br><span class="line">            uri:&apos;categories&apos;,</span><br><span class="line">            pagination:&#123;&#125;,</span><br><span class="line">            beans: [],</span><br><span class="line">            bean:&#123;id:0,name:&quot;&quot;&#125;,</span><br><span class="line">            file:null,</span><br><span class="line">            keyword:&apos;&apos;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        //ViewModel</span><br><span class="line">        var vue = new Vue(&#123;</span><br><span class="line">            el: &apos;#workingArea&apos;,</span><br><span class="line">            data: data4Vue,</span><br><span class="line">            mounted:function()&#123; //mounted　表示这个 Vue 对象加载成功了</span><br><span class="line">                this.list(0);</span><br><span class="line">            &#125;,</span><br><span class="line">            methods: &#123;</span><br><span class="line">                list:function(start)&#123;</span><br><span class="line">                    var url =  this.uri+ &quot;?start=&quot;+start;</span><br><span class="line">                    axios.get(url).then(function(response) &#123;</span><br><span class="line">                        vue.pagination = response.data;</span><br><span class="line">                        vue.beans = response.data.content;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;,</span><br><span class="line">                listSearch:function () &#123;</span><br><span class="line">                    var url = &quot;search?keyword=&quot;+vue.keyword;</span><br><span class="line">                    axios.post(url).then(function (response) &#123;</span><br><span class="line">                        vue.beans = response.data;</span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;,</span><br><span class="line">                jump: function(page)&#123;</span><br><span class="line">                    jump(page,vue); //定义在adminHeader.html 中</span><br><span class="line">                &#125;,</span><br><span class="line">                jumpByNumber: function(start)&#123;</span><br><span class="line">                    jumpByNumber(start,vue);</span><br><span class="line">                &#125;,</span><br><span class="line">                add: function () &#123;</span><br><span class="line">                    var url = this.uri;</span><br><span class="line">                     axios.post(url,vue.bean).then(function () &#123;</span><br><span class="line">                        vue.list(0);</span><br><span class="line">                        vue.bean = &#123;id:0,name:&apos;&apos;,hp:&apos;0&apos;&#125;;</span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;,</span><br><span class="line">                deleteBean:function (id) &#123;</span><br><span class="line">                  if(!checkDeleteLink())</span><br><span class="line">                      return;</span><br><span class="line">                  var url = this.uri+&quot;/&quot;+id;</span><br><span class="line">                  axios.delete(url).then(function (response) &#123;</span><br><span class="line">                      if (0!=response.data.length) //rest规范删除数据要求要会返回空字符串（控制器中delete返回null），所以进行判断</span><br><span class="line">                          alert(response.data);</span><br><span class="line">                      else</span><br><span class="line">                          vue.list(0); //是空字符串则调第一页</span><br><span class="line">                  &#125;)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>页面渲染流程如下： </p>
+<p><img src="https://img-blog.csdnimg.cn/20190326111656503.png" alt="页面渲染流程"></p>
+<p>其中：</p>
+<ul>
+<li>$()是jquery中的用法，表示页面html文档加载完毕后自动执行里面的脚本。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(function () &#123;。。。&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>var data4Vue是vue中定义的数据变量，也可以直接写在vue对象里</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var data4Vue = &#123;</span><br><span class="line">            uri:&apos;categories&apos;,</span><br><span class="line">            pagination:&#123;&#125;,</span><br><span class="line">            beans: [],</span><br><span class="line">            bean:&#123;id:0,name:&quot;&quot;&#125;,</span><br><span class="line">            keyword:&apos;&apos;</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>vue里的el:#workingArea表示该vue对象是对id为workingArea的html标签区域进行数据渲染</li>
+<li>mounted表示对象加载完毕时自动执行mounted里面的函数</li>
+<li>methods在里面编写页面所需要的函数</li>
+<li>methods里的list函数中</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">list:function(start)&#123;</span><br><span class="line">                    var url =  this.uri+ &quot;?start=&quot;+start;</span><br><span class="line">                    axios.get(url).then(function(response) &#123;</span><br><span class="line">                        vue.pagination = response.data;</span><br><span class="line">                        vue.beans = response.data.content;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;,</span><br></pre></td></tr></table></figure>
+<p>   url为请求的地址，？后面为请求参数，服务器后端程序能通过注解自动识别？后的参数。<br>   axios请求函数可以是get，post，delete等依情况定，请求成功后才会执行then里面的函数。then里面函数将返回的数据赋值给vue的数据变量中，vue通过在html标签中绑定的数据变量从而将数据渲染到页面中(请求的具体流程图在之后的后端部分给出)，如下，beans变量  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;tbody&gt;</span><br><span class="line">    &lt;tr v-for=&quot;bean in beans &quot;&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123;bean.id&#125;&#125;&lt;/td&gt;</span><br><span class="line">        &lt;td&gt;</span><br><span class="line">            &#123;&#123;bean.name&#125;&#125;</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">        &lt;td&gt;</span><br><span class="line">            &lt;a :href=&quot;&apos;admin_book_list?cid=&apos; + bean.id &quot;&gt;&lt;span class=&quot;glyphicon glyphicon-shopping-cart&quot;&gt;&lt;/span&gt;&lt;/a&gt;</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">        &lt;td&gt;</span><br><span class="line">            &lt;a :href=&quot;&apos;admin_category_edit?id=&apos; + bean.id &quot;&gt;&lt;span class=&quot;glyphicon glyphicon-edit&quot;&gt;&lt;/span&gt;&lt;/a&gt;</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">        &lt;td&gt;</span><br><span class="line">            &lt;a href=&quot;#nowhere&quot;  @click=&quot;deleteBean(bean.id)&quot;&gt;&lt;span class=&quot;   glyphicon glyphicon-trash&quot;&gt;&lt;/span&gt;&lt;/a&gt;</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&lt;/tbody&gt;</span><br></pre></td></tr></table></figure>
+<p>输入框等表单用v-model双向绑定，即输入的内容会绑定到v-model后的数据变量里，同时数据变量值的改变也会改变表单中的值。  </p>
+<h3 id="3-3页面样式"><a href="#3-3页面样式" class="headerlink" title="3.3页面样式"></a>3.3页面样式</h3><p>样式主要采用bootstrap，在adminHeader.html引入</p>
+<ul>
+<li><strong>adminNavigator.html中导航栏样式</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;nav class=&quot;navbar navbar-default navbar-fixed-top navbar-inverse&quot;&gt;</span><br><span class="line">		&lt;div class=&quot;navbar-header&quot;&gt;</span><br><span class="line">			&lt;img style=&quot;margin-left:10px;margin-right:0px&quot; class=&quot;pull-left navbar-brand&quot; src=&quot;img/site/library.jpg&quot; height=&quot;45px&quot;&gt;</span><br><span class="line">			&lt;a class=&quot;navbar-brand&quot; href=&quot;/admin_login&quot;&gt;图书馆管理后台&lt;/a&gt;</span><br><span class="line">			&lt;a class=&quot;navbar-brand&quot; href=&quot;admin_category_list&quot;&gt;分类管理&lt;/a&gt;</span><br><span class="line">			&lt;a class=&quot;navbar-brand&quot; href=&quot;admin_user_list&quot;&gt;用户管理&lt;/a&gt;</span><br><span class="line">			&lt;a class=&quot;navbar-brand&quot; href=&quot;/admin_orderall_list&quot;&gt;借阅管理&lt;/a&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">	&lt;/nav&gt;</span><br></pre></td></tr></table></figure>
+<p>nav标签中的属性<em>navbar navbar-default nvarbar-fixed-top navbar-inverse</em>分别就是bootstrap样式中的导航栏，导航栏默认样式，固定不随页面滑动，颜色反转（本来是白色的）  </p>
+<p><img src="https://img-blog.csdnimg.cn/20190326100252856.png" alt="导航栏"></p>
+<ul>
+<li><strong>页面中展示数据的表格所用的样式</strong>：<br><img src="https://img-blog.csdnimg.cn/20190327095235428.png" alt="表格">  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;table class=&quot;table table-striped table-bordered table-hover  table-condensed&quot;&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr class=&quot;success&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>table：普通表格，table-striped：斑马线（颜色交替），table-border：列与列之间的分割线，table-hover：鼠标经过有效果，table-condensed：响应式效果，根据页面大小变换。<br>行标签中有集中颜色可选，其中success为绿色</p>
+<ul>
+<li><strong>添加书籍分类的面板</strong>：<br><img src="https://img-blog.csdnimg.cn/20190326142758868.png" alt="添加面板"></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;panel panel-warning addDiv&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;panel-heading&quot;&gt;新增分类&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;panel-body&quot;&gt;</span><br><span class="line">        .....</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+<p>panel：一个面板, panel-warning：颜色警告色（黄色）<br>panel-heading：面板标题，body为面板内容<br>面板里的内容为一个2x2的table构成</p>
+<ul>
+<li><strong>登录页面</strong><br><img src="https://img-blog.csdnimg.cn/20190326202155610.png" alt="image"><br>登录页面采用bootstrap中的栅格化布局（网上物色的登录界面，在css中改了背景）。基本思想是bootstrap将页面分成了12份利用class属性col-lg-xx来配置个标签所占位置 ，如图：<br><img src="https://img-blog.csdnimg.cn/20190326204458452.png" alt="image"><br>所以标题输入框以及按钮class中都设置超过6的数值就会一行的一行的排列。<br>input中的required属性表示不能为空，autofocus表示页面加载后自动获得焦点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;form&gt;</span><br><span class="line">    &lt;div class=&quot;mycenter&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;mysign&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;col-lg-11 text-center text-info&quot;&gt;</span><br><span class="line">                &lt;h2&gt;</span><br><span class="line">                    图书馆管理系统</span><br><span class="line">                &lt;/h2&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;col-lg-10&quot;&gt;</span><br><span class="line">                &lt;input v-model=&quot;user.name&quot; type=&quot;text&quot;  name=&quot;username&quot; placeholder=&quot;请输入账户名&quot; required autofocus/&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;col-lg-10&quot;&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;col-lg-10&quot;&gt;</span><br><span class="line">                &lt;input v-model=&quot;user.passWord&quot; type=&quot;password&quot; class=&quot;form-control&quot; name=&quot;password&quot; placeholder=&quot;请输入密码&quot; required/&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;col-lg-10&quot;&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;col-lg-10&quot;&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;col-lg-10&quot;&gt;</span><br><span class="line">                &lt;button @click=&quot;login&quot; type=&quot;button&quot; id=&quot;btn&quot; class=&quot;btn btn-success col-lg-12&quot;&gt;</span><br><span class="line">                    登录&lt;/button&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="4-静态文件路径设置"><a href="#4-静态文件路径设置" class="headerlink" title="4.静态文件路径设置"></a>4.静态文件路径设置</h2><p>改写css，图片，以及前端框架js文件的路径到resource/webapp路径下，在idea中如下设置<br>setting -&gt; project structure -&gt;facets设置web resource directory<br><img src="https://img-blog.csdnimg.cn/20190326193851648.png" alt="image">  </p>
+<pre><code>&lt;script src=&quot;js/jquery/2.0.0/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;link href=&quot;css/bootstrap/3.3.6/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;script src=&quot;js/bootstrap/3.3.6/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/vue/2.5.16/vue.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/axios/0.17.1/axios.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/moment/2.22.2/moment.js&quot;&gt;&lt;/script&gt; &lt;!-- vue.js 格式化日期用的 --&gt;
+&lt;link href=&quot;css/back/style.css&quot; rel=&quot;stylesheet&quot;&gt;
+</code></pre>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://link.hhtjim.com/163/468176711.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="true" data-ci="f6940eed0b71e5c31234" data-cs="69b7d5cf1903e4a6169076293520182a3bb701a2" data-r="zyzengone.github.io" data-o="zyzengone" data-a="zyzengone" data-d="true">查看评论</div>
+
+
+    </div>
+    
+        <div class="side">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#本次图书馆管理系统开发过程："><span class="toc-number">1.</span> <span class="toc-text">本次图书馆管理系统开发过程：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-分析表关系"><span class="toc-number">1.1.</span> <span class="toc-text">1.分析表关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置springboot配置文件"><span class="toc-number">1.2.</span> <span class="toc-text">配置springboot配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-前端部分"><span class="toc-number">1.3.</span> <span class="toc-text">3.前端部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-thymeleaf将网页模块化"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 thymeleaf将网页模块化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-vue进行页面数据渲染"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 vue进行页面数据渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3页面样式"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3页面样式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-静态文件路径设置"><span class="toc-number">1.4.</span> <span class="toc-text">4.静态文件路径设置</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
