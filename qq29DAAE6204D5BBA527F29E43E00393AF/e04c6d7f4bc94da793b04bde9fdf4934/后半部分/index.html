@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zy&#39;blog</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="zyzengone,"> 
+    
+    <meta name="author" content="zeng yang"> 
+    <link rel="alternative" href="atom.xml" title="Zy&#39;blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/logo.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle"></h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title"></h1>
+        <div class="stuff">
+            <span>三月 27, 2019</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h2 id="5"><a href="#5" class="headerlink" title="5."></a>5.</h2><p>后端工程目录结构如图：<br><img src="https://img-blog.csdnimg.cn/20190326211901438.png" alt="image">包依次为 配置类（解决跨域问题），DAO类，全局处理异常类，实体类，服务类（封装DAO类），工具类（页码效果，登录成功失败的返回结果类），控制器类（映射地址路径，接受请求），操作数据库是利用的springboot的jpa来实现的，jpa相当于是将hibernate的高度封装，无需配置直接使用。</p>
+<h3 id="5-1-分类管理"><a href="#5-1-分类管理" class="headerlink" title="5.1 分类管理"></a>5.1 分类管理</h3><ol>
+<li>首先创建实体类Category,利用注解标注该类为实体类，并标注对应的数据库中的表名category，主键字段名id</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Entity</span><br><span class="line">@Table(name = &quot;category&quot;)</span><br><span class="line">@JsonIgnoreProperties(&#123; &quot;handler&quot;,&quot;hibernateLazyInitializer&quot; &#125;)</span><br><span class="line"></span><br><span class="line">public class Category &#123;</span><br><span class="line">    @Id</span><br><span class="line">    @GeneratedValue(strategy = GenerationType.IDENTITY) </span><br><span class="line">    @Column(name = &quot;id&quot;)	</span><br><span class="line">    int id;</span><br><span class="line">    </span><br><span class="line">    String name;</span><br><span class="line">    </span><br><span class="line">	public int getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setId(int id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>创建CategoryDAO接口并继承JpaRepository&lt;Category,Integer&gt;。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface CategoryDAO extends JpaRepository&lt;Category,Integer&gt;&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>创建服务类CategoryService，将CategoryDAO中需要用到的操作比如增删改查在服务类中进行装饰。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class CategoryService &#123;</span><br><span class="line">	@Autowired CategoryDAO categoryDAO;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	public Page4Navigator&lt;Book&gt; list(int start, int size, int navigatePages) &#123;</span><br><span class="line">		Sort sort = new Sort(Sort.Direction.DESC, &quot;id&quot;);</span><br><span class="line">		Pageable pageable = new PageRequest(start, size,sort);</span><br><span class="line">		Page pageFromJPA =categoryDAO.findAll(pageable);    </span><br><span class="line">		//categoryDAO.findAll方法返回的结果就是一个page对象。当然是jpa中封装好的方法</span><br><span class="line"></span><br><span class="line">		return new Page4Navigator&lt;&gt;(pageFromJPA,navigatePages);</span><br><span class="line">       //return pageFromJPA;</span><br><span class="line">	&#125;</span><br><span class="line">	public List&lt;Category&gt; list() &#123;</span><br><span class="line">	    //Spring中的sort类，规定一个按某值的排列顺序</span><br><span class="line">    	Sort sort = new Sort(Sort.Direction.DESC, &quot;id&quot;);</span><br><span class="line">		return categoryDAO.findAll(sort);</span><br><span class="line">	&#125;</span><br><span class="line">	public void add(Category bean)&#123;</span><br><span class="line">		categoryDAO.save(bean);</span><br><span class="line">	&#125;</span><br><span class="line">	public void delete(int id)&#123;</span><br><span class="line">		categoryDAO.delete(id);</span><br><span class="line">	&#125;</span><br><span class="line">	public Category get(int id)&#123;</span><br><span class="line">		Category c = categoryDAO.findOne(id);</span><br><span class="line">		return c;</span><br><span class="line">	&#125;</span><br><span class="line">	public void update(Category c)&#123;</span><br><span class="line">		categoryDAO.save(c);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://link.hhtjim.com/163/468176711.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="true" data-ci="f6940eed0b71e5c31234" data-cs="69b7d5cf1903e4a6169076293520182a3bb701a2" data-r="zyzengone.github.io" data-o="zyzengone" data-a="zyzengone" data-d="true">查看评论</div>
+
+
+    </div>
+    
+        <div class="side">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#5"><span class="toc-number">1.</span> <span class="toc-text">5.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-分类管理"><span class="toc-number">1.1.</span> <span class="toc-text">5.1 分类管理</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
