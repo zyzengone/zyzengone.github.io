@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zy&#39;blog</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="zyzengone,"> 
+    
+    <meta name="author" content="zeng yang"> 
+    <link rel="alternative" href="atom.xml" title="Zy&#39;blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/logo.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">web图书馆管理系统</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">web图书馆管理系统</h1>
+        <div class="stuff">
+            <span>三月 27, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/java/">java</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/web/">web</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/学习/">学习</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="后端部分"><a href="#后端部分" class="headerlink" title="后端部分"></a>后端部分</h2><p>后端部分完全采用springboot的<strong>jpa方式</strong>进行数据库的操作，在接收请求方面采用的是<strong>restful风格</strong>。  </p>
+<p>  后端工程目录，如图：</p>
+<p>  <img src="https://i.loli.net/2019/03/27/5c9b0f338369a.png" alt="工程目录">  </p>
+<p>依次为</p>
+<ol>
+<li>配置类（仅解决跨域）</li>
+<li>DAO类（数据库接口）</li>
+<li>异常类（捕捉全局的异常）</li>
+<li>实体类</li>
+<li>服务类（封装操作数据库(DAO)的方法）</li>
+<li>工具类（包含一个分页改进的分页功能和登录页面返回的结果信息类）</li>
+<li>控制器类（实现页面跳转，和返回数据）<h3 id="分类管理"><a href="#分类管理" class="headerlink" title="分类管理"></a>分类管理</h3><img src="https://img-blog.csdnimg.cn/20190327094150563.png" alt="image"> <h4 id="分类表格的实现流程如下："><a href="#分类表格的实现流程如下：" class="headerlink" title="分类表格的实现流程如下："></a><strong>分类表格的实现流程如下：</strong></h4><img src="https://i.loli.net/2019/03/27/5c9b282306396.png" alt="listCategory.png"><br>接下来依次叙述springboot一个实现分类目录列表的每一个类：</li>
+<li><p>实体类Category：<br>通过</p>
+<pre><code>@Entity
+@Table(name = &quot;category&quot;)
+@JsonIgnoreProperties({ &quot;handler&quot;,&quot;hibernateLazyInitializer&quot; })
+
+public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Column(name = &quot;id&quot;)    
+    int id;
+
+    String name;
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre></li>
+<li><p>数据库接口类</p>
+<pre><code>public interface CategoryDAO extends JpaRepository&lt;Category,Integer&gt;{
+
+}
+</code></pre></li>
+<li><p>服务类</p>
+<pre><code>@Service
+public class CategoryService {
+    @Autowired CategoryDAO categoryDAO;
+</code></pre></li>
+</ol>
+<pre><code>    public Page4Navigator&lt;Book&gt; list(int start, int size, int navigatePages) {
+        Sort sort = new Sort(Sort.Direction.DESC, &quot;id&quot;);
+        Pageable pageable = new PageRequest(start, size,sort);
+        Page pageFromJPA =categoryDAO.findAll(pageable);  //categoryDAO.findAll方法返回的结果就是一个page对象。当然是jpa中封装好的方法
+
+        return new Page4Navigator&lt;&gt;(pageFromJPA,navigatePages);
+//        return pageFromJPA;
+    }
+    public List&lt;Category&gt; list() {
+        Sort sort = new Sort(Sort.Direction.DESC, &quot;id&quot;);
+        return categoryDAO.findAll(sort);
+    }
+    public void add(Category bean){
+        categoryDAO.save(bean);
+    }
+    public void delete(int id){
+        categoryDAO.delete(id);
+    }
+    public Category get(int id){
+        Category c = categoryDAO.findOne(id);
+        return c;
+    }
+    public void update(Category c){
+        categoryDAO.save(c);
+    }
+}
+</code></pre><ol start="4">
+<li><p>controller类</p>
+<pre><code>@RestController
+public class CategoryController {
+    @Autowired CategoryService categoryService;
+
+    @GetMapping(&quot;/categories&quot;)
+    public Page4Navigator&lt;Book&gt; list(@RequestParam(value = &quot;start&quot;, defaultValue = &quot;0&quot;) int start, @RequestParam(value = &quot;size&quot;, defaultValue = &quot;5&quot;) int size) throws Exception {
+        start = start&lt;0?0:start;
+        Page4Navigator&lt;Book&gt; page =categoryService.list(start, size, 5);  //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
+        return page;
+    }
+    @PostMapping(&quot;/categories&quot;)
+    public Object add(@RequestBody Category bean){
+        categoryService.add(bean);
+        return bean;
+    }
+
+    @DeleteMapping(&quot;/categories/{id}&quot;)
+    public String delete(@PathVariable(&quot;id&quot;) int id,HttpServletRequest request){
+        categoryService.delete(id);
+        File imageFile = new File(request.getServletContext().getRealPath(&quot;/img/category&quot;));
+        File file = new File(imageFile,id+&quot;.jpg&quot;);
+        file.delete();
+        return null;
+    }
+    @GetMapping(&quot;/categories/{id}&quot;)
+    public Category get(@PathVariable(&quot;id&quot;) int id) throws Exception{
+        Category bean = categoryService.get(id);
+        return bean;
+    }
+    @PutMapping(&quot;/categories&quot;)
+    public Object update(@RequestBody Category bean){
+        categoryService.update(bean);
+        return bean;
+    }
+}
+</code></pre></li>
+</ol>
+<h4 id="分类名称修改流程："><a href="#分类名称修改流程：" class="headerlink" title="分类名称修改流程："></a><strong>分类名称修改流程：</strong></h4><ol>
+<li><p>点击修改图标，超链地址为(:href为vue超链写法，可以在链接中加vue对象属性):</p>
+<pre><code>&lt;a :href=&quot;&apos;admin_book_list?cid=&apos; + bean.id &quot;&gt;
+</code></pre></li>
+<li><p>admin_book_list在adminPagecontroller中跳转到editCategory.html页面</p>
+<pre><code>@GetMapping(value = &quot;/admin_category_edit&quot;)
+public String editCategory(){
+    return &quot;admin/editCategory&quot;;
+}
+</code></pre></li>
+<li><p>editCategory自动执行脚本中的get方法，获得超链问号之后的参数值bean.id即当前修改项的id值，并请求服务器返回当前id值的分类项的名称，放到编辑框中。</p>
+</li>
+<li><p>修改之后，点击提交按钮，执行update函数，提交请求和修改后的bean给服务器，服务器成功返回信息后，跳转页面至分类页面。</p>
+</li>
+</ol>
+<pre><code>&lt;tr class=&quot;submitTR&quot;&gt;
+    &lt;td colspan=&quot;2&quot; align=&quot;center&quot;&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;id&quot;   v-model.trim=&quot;bean.id&quot; &gt;
+        &lt;a href=&quot;#nowhere&quot; class=&quot;btn btn-success&quot; @click=&quot;update&quot;&gt;提 交&lt;/a&gt;
+    &lt;/td&gt;
+&lt;/tr&gt;
+
+$(function () {     //$(function(){...})jquery中表示文档一载入完毕就执行
+    var data4Vue={
+        uri:&apos;categories&apos;,
+        listURL:&apos;admin_category_list&apos;,
+        bean:{id:0,name:&apos;&apos;},
+    };
+    var vue = new Vue({
+        el:&apos;#workingArea&apos;,
+        data:data4Vue,
+        mounted:function(){
+            this.get();             //mounted内自动执行
+        },
+        methods:{    //methods注意s，不是method
+            get:function (){             //get方法请求服务器返回该分类对象
+                var id = getUrlParms(&quot;id&quot;);
+                var url = this.uri+&quot;/&quot;+id;
+                axios.get(url).then(function (response) {
+                    vue.bean = response.data;
+                })
+            },
+            update:function () {
+                var id = getUrlParms(&quot;id&quot;);
+                var url = this.uri;
+                axios.put(url,vue.bean).then(function (response) {
+                    location.href = vue.listURL;
+                });
+            }
+        }
+    });
+});
+</code></pre><h4 id="新增分类项："><a href="#新增分类项：" class="headerlink" title="新增分类项："></a><strong>新增分类项</strong>：</h4><p>新增分类比较简单，比修改简单，直接绑定的按钮执行add函数将请求的地址与bean一起传给服务器，服务器执行成功返回信息时更新列表。但因为整体用的是==restful风格==，因此axios请求插件在修改里用的是==put==方法，增加用的是==post==方法，对应于后端程序中的==PutMapping==和==PostMapping==，这样可以请求一致的url，但后台可以执行不同的方法</p>
+<p><img src="https://i.loli.net/2019/03/27/5c9b70a362469.png" alt="TIM截图20190327203922.png"></p>
+<h4 id="删除分类项"><a href="#删除分类项" class="headerlink" title="删除分类项"></a><strong>删除分类项</strong></h4><p>跟增加基本无异，但在vue中delete是关键字，在命名delete方法时改成deletebean，并且restful规范删除成功后服务器端要返回null，所以前端进行判断返回的数据是否为null,如果不为空，则打印处数据。</p>
+<pre><code>deleteBean:function (id) {
+  if(!checkDeleteLink())
+      return;
+  var url = this.uri+&quot;/&quot;+id;
+  axios.delete(url).then(function (response) {
+      if (0!=response.data.length) //rest规范删除数据要求要会返回空字符串（控制器类中delete返回null），所以进行判断
+          alert(response.data);
+      else
+          vue.list(0); //是空字符串则调第一页
+  })
+}
+</code></pre><h4 id="分类下的书籍查询："><a href="#分类下的书籍查询：" class="headerlink" title="分类下的书籍查询："></a>分类下的书籍查询：</h4><ol>
+<li><p>由于书籍和分类时多对一的关系，因此在书籍实体类中要用注解标明，如下在category属性上注解@ManyToOne和JoinColumn(name=”cid”)表示外键cid与category关联：</p>
+<pre><code>    @Entity
+public class Book {
+    @Id
+    @Column(name = &quot;id&quot;)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String name;
+    @ManyToOne
+    @JoinColumn(name = &quot;cid&quot;)
+    private Category category;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+}
+</code></pre></li>
+<li><p>在DAO接口中写一个通过分类查询的方法，这方法命名规则是定死的，按照命名规则写，在==@AutoWired==生成的DAO对象中自动就有这个方法的具体实现。</p>
+<pre><code>public interface BookDAO extends JpaRepository&lt;Book,Integer&gt; {
+    Page&lt;Book&gt; findByCategory(Category category, Pageable pageable);
+    //List&lt;Book&gt; findByNameLike(String keyword,Pageable pageable); //这个是后面用到的搜索
+}
+</code></pre></li>
+<li><p>在service中，bookService.java中，除了增删改查的service方法还要加入一个通过分类名查询的方法。</p>
+<pre><code>public Page4Navigator&lt;Book&gt; list(int cid,int start,int size,int navigatePages ){
+    Category category = categoryService.get(cid); //获取分类对象
+    Sort sort = new Sort(Sort.Direction.DESC,&quot;id&quot;); //设置排序方式的对象
+    Pageable pageable = new PageRequest(start,size,sort); //设置分页的对象
+    Page&lt;Book&gt; pageFromJPA = bookDAO.findByCategory(category,pageable); //DAO中通过分类查询到的结果
+    return new Page4Navigator&lt;&gt;(pageFromJPA,navigatePages);//返回查询的包含分页信息的书籍项
+}
+</code></pre></li>
+<li><p>最后在bookController中接收页面发来的请求信息，来返回分类查询结果</p>
+<pre><code>@GetMapping(&quot;/categories/{cid}/books&quot;)
+public Page4Navigator&lt;Book&gt; list(@PathVariable(&quot;cid&quot;) int cid, @RequestParam(value = &quot;start&quot;,defaultValue = &quot;0&quot;)int start,
+                                 @RequestParam(value = &quot;size&quot;,defaultValue = &quot;5&quot;)int size){
+    start = start&lt;0?0:start;
+    Page4Navigator&lt;Book&gt; page = bookService.list(cid,start,size,5);
+    return page;
+}
+</code></pre></li>
+</ol>
+<h3 id="搜索书籍功能"><a href="#搜索书籍功能" class="headerlink" title="搜索书籍功能"></a>搜索书籍功能</h3><p>搜索书籍功能放在前端的所有书籍页面里面。</p>
+<ol>
+<li><p>在vue的data属性里定义号关键字keyword:””，并与搜索输入框绑定。</p>
+<pre><code>&lt;input type=&quot;text&quot; class=&quot;form-control input-lg col-xs-4&quot; v-model=&quot;keyword&quot;&gt;
+</code></pre></li>
+<li><p>编写搜索请求函数listSearch，与按钮绑定：</p>
+<pre><code>&lt;span @click=&quot;listSearch&quot; class=&quot;input-group-addon btn btn-primary&quot;&gt;
+
+        listSearch:function () {
+            var url = &quot;search?keyword=&quot;+vue.keyword;
+            axios.post(url).then(function (response) {
+                vue.beans = response.data;
+            })
+        },
+</code></pre></li>
+<li><p>在bookDAO中添加方法。名字定义方式findByNameLike,传入的参数为关键字，和分页信息</p>
+<pre><code>public interface BookDAO extends JpaRepository&lt;Book,Integer&gt; {
+    //Page&lt;Book&gt; findByCategory(Category category, Pageable pageable);
+    List&lt;Book&gt; findByNameLike(String keyword,Pageable pageable);
+}
+</code></pre></li>
+<li><p>在service中封装该方法</p>
+<pre><code>public List&lt;Book&gt; search(String name, int start, int size){
+    Sort sort = new Sort(Sort.Direction.DESC,&quot;id&quot;);
+    Pageable page = new PageRequest(start,size,sort);
+    List&lt;Book&gt; books = bookDAO.findByNameLike(&quot;%&quot;+name+&quot;%&quot;,page);//&quot;%&quot;+name+&quot;%&quot;表模糊查询
+    return books;
+}
+</code></pre></li>
+<li><p>在searchController中接收关键字请求信息，返回搜索结果。</p>
+<ul>
+<li><p>[ ]     <em>searchController可以与bookController合并</em></p>
+<pre><code>@Autowired
+BookService bookService;
+@PostMapping(&quot;/search&quot;)
+public Object search(@RequestParam(value = &quot;keyword&quot;) String keyWord){
+    return bookService.search(keyWord,0,20);
+}
+</code></pre></li>
+</ul>
+</li>
+</ol>
+<h3 id="登录功能"><a href="#登录功能" class="headerlink" title="登录功能"></a>登录功能</h3><p>登录功能与前面的分类增加功能类似，前端将表单中的信息use.namer和user.password封装一个json数据user，发送给后端，后端通过注解@Requestbody自动将值赋给usr对象，userDAO将这个对象拿进数据库查询看是否在数据库中。判断后返回result对象，判断里面返回的信息是否是查询成功，成功则跳转到分类页面 ，查询结果为null的话则返回失败信息。</p>
+<pre><code>//userDAO添加通过用户名和密码查询的方式
+public interface UserDAO extends JpaRepository&lt;User,Integer&gt; {
+    User getByNameAndPassWord(String name,String password);
+}
+</code></pre><hr>
+<pre><code>//登录页面的login函数请求服务器
+        login:function () {
+            axios.post(vue.uri,this.user).then(function (response) {
+              vue.result =  response.data
+                if (vue.result.code ==1){
+                    location.href=&quot;admin_category_list&quot;
+                }
+                else{
+                    alert(vue.result.message)
+                }
+            })
+        }
+</code></pre><hr>
+<pre><code>//在searchController中将传过来的user的name和password进行查询
+@RestController
+public class LoginController {
+    @Autowired
+    UserService userService;
+    @PostMapping(&quot;/login&quot;)
+    public Object login(@RequestBody User userParam, HttpSession httpSession){
+        User user = userService.get(userParam.getName(),userParam.getPassWord());
+        if (user==null){
+            return Result.fail();
+        } else {
+            httpSession.setAttribute(&quot;user&quot;,userParam);
+            return Result.success();
+        }
+    }
+}
+</code></pre>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="https://link.hhtjim.com/163/468176711.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="true" data-ci="f6940eed0b71e5c31234" data-cs="69b7d5cf1903e4a6169076293520182a3bb701a2" data-r="zyzengone.github.io" data-o="zyzengone" data-a="zyzengone" data-d="true">查看评论</div>
+
+
+    </div>
+    
+        <div class="side">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#后端部分"><span class="toc-number">1.</span> <span class="toc-text">后端部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分类管理"><span class="toc-number">1.1.</span> <span class="toc-text">分类管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#分类表格的实现流程如下："><span class="toc-number">1.1.1.</span> <span class="toc-text">分类表格的实现流程如下：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分类名称修改流程："><span class="toc-number">1.1.2.</span> <span class="toc-text">分类名称修改流程：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#新增分类项："><span class="toc-number">1.1.3.</span> <span class="toc-text">新增分类项：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除分类项"><span class="toc-number">1.1.4.</span> <span class="toc-text">删除分类项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分类下的书籍查询："><span class="toc-number">1.1.5.</span> <span class="toc-text">分类下的书籍查询：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搜索书籍功能"><span class="toc-number">1.2.</span> <span class="toc-text">搜索书籍功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登录功能"><span class="toc-number">1.3.</span> <span class="toc-text">登录功能</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
