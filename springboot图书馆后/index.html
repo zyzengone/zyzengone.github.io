@@ -64,317 +64,81 @@
 <li>服务类（封装操作数据库(DAO)的方法）</li>
 <li>工具类（包含一个分页改进的分页功能和登录页面返回的结果信息类）</li>
 <li>控制器类（实现页面跳转，和返回数据）<h3 id="分类管理"><a href="#分类管理" class="headerlink" title="分类管理"></a>分类管理</h3><img src="https://img-blog.csdnimg.cn/20190327094150563.png" alt="image"> <h4 id="分类表格的实现流程如下："><a href="#分类表格的实现流程如下：" class="headerlink" title="分类表格的实现流程如下："></a><strong>分类表格的实现流程如下：</strong></h4><img src="https://i.loli.net/2019/03/27/5c9b282306396.png" alt="listCategory.png"><br>接下来依次叙述springboot一个实现分类目录列表的每一个类：</li>
-<li><p>实体类Category：<br>通过</p>
-<pre><code>@Entity
-@Table(name = &quot;category&quot;)
-@JsonIgnoreProperties({ &quot;handler&quot;,&quot;hibernateLazyInitializer&quot; })
-
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name = &quot;id&quot;)    
-    int id;
-
-    String name;
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-}
-</code></pre></li>
-<li><p>数据库接口类</p>
-<pre><code>public interface CategoryDAO extends JpaRepository&lt;Category,Integer&gt;{
-
-}
-</code></pre></li>
-<li><p>服务类</p>
-<pre><code>@Service
-public class CategoryService {
-    @Autowired CategoryDAO categoryDAO;
-</code></pre></li>
+<li>实体类Category：<br>通过</li>
 </ol>
-<pre><code>    public Page4Navigator&lt;Book&gt; list(int start, int size, int navigatePages) {
-        Sort sort = new Sort(Sort.Direction.DESC, &quot;id&quot;);
-        Pageable pageable = new PageRequest(start, size,sort);
-        Page pageFromJPA =categoryDAO.findAll(pageable);  //categoryDAO.findAll方法返回的结果就是一个page对象。当然是jpa中封装好的方法
-
-        return new Page4Navigator&lt;&gt;(pageFromJPA,navigatePages);
-//        return pageFromJPA;
-    }
-    public List&lt;Category&gt; list() {
-        Sort sort = new Sort(Sort.Direction.DESC, &quot;id&quot;);
-        return categoryDAO.findAll(sort);
-    }
-    public void add(Category bean){
-        categoryDAO.save(bean);
-    }
-    public void delete(int id){
-        categoryDAO.delete(id);
-    }
-    public Category get(int id){
-        Category c = categoryDAO.findOne(id);
-        return c;
-    }
-    public void update(Category c){
-        categoryDAO.save(c);
-    }
-}
-</code></pre><ol start="4">
-<li><p>controller类</p>
-<pre><code>@RestController
-public class CategoryController {
-    @Autowired CategoryService categoryService;
-
-    @GetMapping(&quot;/categories&quot;)
-    public Page4Navigator&lt;Book&gt; list(@RequestParam(value = &quot;start&quot;, defaultValue = &quot;0&quot;) int start, @RequestParam(value = &quot;size&quot;, defaultValue = &quot;5&quot;) int size) throws Exception {
-        start = start&lt;0?0:start;
-        Page4Navigator&lt;Book&gt; page =categoryService.list(start, size, 5);  //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
-        return page;
-    }
-    @PostMapping(&quot;/categories&quot;)
-    public Object add(@RequestBody Category bean){
-        categoryService.add(bean);
-        return bean;
-    }
-
-    @DeleteMapping(&quot;/categories/{id}&quot;)
-    public String delete(@PathVariable(&quot;id&quot;) int id,HttpServletRequest request){
-        categoryService.delete(id);
-        File imageFile = new File(request.getServletContext().getRealPath(&quot;/img/category&quot;));
-        File file = new File(imageFile,id+&quot;.jpg&quot;);
-        file.delete();
-        return null;
-    }
-    @GetMapping(&quot;/categories/{id}&quot;)
-    public Category get(@PathVariable(&quot;id&quot;) int id) throws Exception{
-        Category bean = categoryService.get(id);
-        return bean;
-    }
-    @PutMapping(&quot;/categories&quot;)
-    public Object update(@RequestBody Category bean){
-        categoryService.update(bean);
-        return bean;
-    }
-}
-</code></pre></li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"category"</span>)</span><br><span class="line"><span class="meta">@JsonIgnoreProperties</span>(&#123; <span class="string">"handler"</span>,<span class="string">"hibernateLazyInitializer"</span> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Category</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY) </span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"id"</span>)	</span><br><span class="line">    <span class="keyword">int</span> id;</span><br><span class="line">    </span><br><span class="line">    String name;</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>数据库接口类</li>
 </ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CategoryDAO</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Category</span>,<span class="title">Integer</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>服务类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CategoryService</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Autowired</span> CategoryDAO categoryDAO;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Page4Navigator&lt;Book&gt; <span class="title">list</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> size, <span class="keyword">int</span> navigatePages)</span> </span>&#123;</span><br><span class="line">		Sort sort = <span class="keyword">new</span> Sort(Sort.Direction.DESC, <span class="string">"id"</span>);</span><br><span class="line">		Pageable pageable = <span class="keyword">new</span> PageRequest(start, size,sort);</span><br><span class="line">		Page pageFromJPA =categoryDAO.findAll(pageable);  <span class="comment">//categoryDAO.findAll方法返回的结果就是一个page对象。当然是jpa中封装好的方法</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Page4Navigator&lt;&gt;(pageFromJPA,navigatePages);</span><br><span class="line"><span class="comment">//		return pageFromJPA;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;Category&gt; <span class="title">list</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	Sort sort = <span class="keyword">new</span> Sort(Sort.Direction.DESC, <span class="string">"id"</span>);</span><br><span class="line">		<span class="keyword">return</span> categoryDAO.findAll(sort);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Category bean)</span></span>&#123;</span><br><span class="line">		categoryDAO.save(bean);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">		categoryDAO.delete(id);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Category <span class="title">get</span><span class="params">(<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">		Category c = categoryDAO.findOne(id);</span><br><span class="line">		<span class="keyword">return</span> c;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Category c)</span></span>&#123;</span><br><span class="line">		categoryDAO.save(c);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>controller类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CategoryController</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Autowired</span> CategoryService categoryService;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/categories"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Page4Navigator&lt;Book&gt; <span class="title">list</span><span class="params">(@RequestParam(value = <span class="string">"start"</span>, defaultValue = <span class="string">"0"</span>)</span> <span class="keyword">int</span> start, @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"size"</span>, defaultValue = <span class="string">"5"</span>)</span> <span class="keyword">int</span> size) <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		start = start&lt;<span class="number">0</span>?<span class="number">0</span>:start;</span><br><span class="line">		Page4Navigator&lt;Book&gt; page =categoryService.list(start, size, <span class="number">5</span>);  <span class="comment">//5表示导航分页最多有5个，像 [1,2,3,4,5] 这样</span></span><br><span class="line">		<span class="keyword">return</span> page;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@PostMapping</span>(<span class="string">"/categories"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">add</span><span class="params">(@RequestBody Category bean)</span></span>&#123;</span><br><span class="line">		categoryService.add(bean);</span><br><span class="line">		<span class="keyword">return</span> bean;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@DeleteMapping</span>(<span class="string">"/categories/&#123;id&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">delete</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id,HttpServletRequest request)</span>&#123;</span><br><span class="line">		categoryService.delete(id);</span><br><span class="line">		File imageFile = <span class="keyword">new</span> File(request.getServletContext().getRealPath(<span class="string">"/img/category"</span>));</span><br><span class="line">		File file = <span class="keyword">new</span> File(imageFile,id+<span class="string">".jpg"</span>);</span><br><span class="line">		file.delete();</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/categories/&#123;id&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Category <span class="title">get</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id) <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		Category bean = categoryService.get(id);</span><br><span class="line">		<span class="keyword">return</span> bean;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="meta">@PutMapping</span>(<span class="string">"/categories"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">update</span><span class="params">(@RequestBody Category bean)</span></span>&#123;</span><br><span class="line">	    categoryService.update(bean);</span><br><span class="line">	    <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h4 id="分类名称修改流程："><a href="#分类名称修改流程：" class="headerlink" title="分类名称修改流程："></a><strong>分类名称修改流程：</strong></h4><ol>
 <li><p>点击修改图标，超链地址为(:href为vue超链写法，可以在链接中加vue对象属性):</p>
 <pre><code>&lt;a :href=&quot;&apos;admin_book_list?cid=&apos; + bean.id &quot;&gt;
 </code></pre></li>
-<li><p>admin_book_list在adminPagecontroller中跳转到editCategory.html页面</p>
-<pre><code>@GetMapping(value = &quot;/admin_category_edit&quot;)
-public String editCategory(){
-    return &quot;admin/editCategory&quot;;
-}
-</code></pre></li>
+<li>admin_book_list在adminPagecontroller中跳转到editCategory.html页面</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(value = <span class="string">"/admin_category_edit"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">editCategory</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"admin/editCategory"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
 <li><p>editCategory自动执行脚本中的get方法，获得超链问号之后的参数值bean.id即当前修改项的id值，并请求服务器返回当前id值的分类项的名称，放到编辑框中。</p>
 </li>
 <li><p>修改之后，点击提交按钮，执行update函数，提交请求和修改后的bean给服务器，服务器成功返回信息后，跳转页面至分类页面。</p>
 </li>
 </ol>
-<pre><code>&lt;tr class=&quot;submitTR&quot;&gt;
-    &lt;td colspan=&quot;2&quot; align=&quot;center&quot;&gt;
-        &lt;input type=&quot;hidden&quot; name=&quot;id&quot;   v-model.trim=&quot;bean.id&quot; &gt;
-        &lt;a href=&quot;#nowhere&quot; class=&quot;btn btn-success&quot; @click=&quot;update&quot;&gt;提 交&lt;/a&gt;
-    &lt;/td&gt;
-&lt;/tr&gt;
-
-$(function () {     //$(function(){...})jquery中表示文档一载入完毕就执行
-    var data4Vue={
-        uri:&apos;categories&apos;,
-        listURL:&apos;admin_category_list&apos;,
-        bean:{id:0,name:&apos;&apos;},
-    };
-    var vue = new Vue({
-        el:&apos;#workingArea&apos;,
-        data:data4Vue,
-        mounted:function(){
-            this.get();             //mounted内自动执行
-        },
-        methods:{    //methods注意s，不是method
-            get:function (){             //get方法请求服务器返回该分类对象
-                var id = getUrlParms(&quot;id&quot;);
-                var url = this.uri+&quot;/&quot;+id;
-                axios.get(url).then(function (response) {
-                    vue.bean = response.data;
-                })
-            },
-            update:function () {
-                var id = getUrlParms(&quot;id&quot;);
-                var url = this.uri;
-                axios.put(url,vue.bean).then(function (response) {
-                    location.href = vue.listURL;
-                });
-            }
-        }
-    });
-});
-</code></pre><h4 id="新增分类项："><a href="#新增分类项：" class="headerlink" title="新增分类项："></a><strong>新增分类项</strong>：</h4><p>新增分类比较简单，比修改简单，直接绑定的按钮执行add函数将请求的地址与bean一起传给服务器，服务器执行成功返回信息时更新列表。但因为整体用的是==restful风格==，因此axios请求插件在修改里用的是==put==方法，增加用的是==post==方法，对应于后端程序中的==PutMapping==和==PostMapping==，这样可以请求一致的url，但后台可以执行不同的方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr <span class="class"><span class="keyword">class</span></span>=<span class="string">"submitTR"</span>&gt;</span><br><span class="line">    &lt;td colspan=<span class="string">"2"</span> align=<span class="string">"center"</span>&gt;</span><br><span class="line">        &lt;input type=<span class="string">"hidden"</span> name=<span class="string">"id"</span>   v-model.trim=<span class="string">"bean.id"</span> &gt;</span><br><span class="line">        &lt;a href=<span class="string">"#nowhere"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn-success"</span> @click=<span class="string">"update"</span>&gt;提 交&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>td&gt;</span><br><span class="line">&lt;<span class="regexp">/tr&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">$(function () &#123;     /</span><span class="regexp">/$(function()&#123;...&#125;)jquery中表示文档一载入完毕就执行</span></span><br><span class="line"><span class="regexp">    var data4Vue=&#123;</span></span><br><span class="line"><span class="regexp">        uri:'categories',</span></span><br><span class="line"><span class="regexp">        listURL:'admin_category_list',</span></span><br><span class="line"><span class="regexp">        bean:&#123;id:0,name:''&#125;,</span></span><br><span class="line"><span class="regexp">    &#125;;</span></span><br><span class="line"><span class="regexp">    var vue = new Vue(&#123;</span></span><br><span class="line"><span class="regexp">        el:'#workingArea',</span></span><br><span class="line"><span class="regexp">        data:data4Vue,</span></span><br><span class="line"><span class="regexp">        mounted:function()&#123;</span></span><br><span class="line"><span class="regexp">            this.get();             /</span><span class="regexp">/mounted内自动执行</span></span><br><span class="line"><span class="regexp">        &#125;,</span></span><br><span class="line"><span class="regexp">        methods:&#123;    /</span><span class="regexp">/methods注意s，不是method</span></span><br><span class="line"><span class="regexp">            get:function ()&#123;             /</span><span class="regexp">/get方法请求服务器返回该分类对象</span></span><br><span class="line"><span class="regexp">                var id = getUrlParms("id");</span></span><br><span class="line"><span class="regexp">                var url = this.uri+"/</span><span class="string">"+id;</span></span><br><span class="line"><span class="string">                axios.get(url).then(function (response) &#123;</span></span><br><span class="line"><span class="string">                    vue.bean = response.data;</span></span><br><span class="line"><span class="string">                &#125;)</span></span><br><span class="line"><span class="string">            &#125;,</span></span><br><span class="line"><span class="string">            update:function () &#123;</span></span><br><span class="line"><span class="string">                var id = getUrlParms("</span>id<span class="string">");</span></span><br><span class="line"><span class="string">                var url = this.uri;</span></span><br><span class="line"><span class="string">                axios.put(url,vue.bean).then(function (response) &#123;</span></span><br><span class="line"><span class="string">                    location.href = vue.listURL;</span></span><br><span class="line"><span class="string">                &#125;);</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;);</span></span><br><span class="line"><span class="string">&#125;);</span></span><br></pre></td></tr></table></figure>
+<h4 id="新增分类项："><a href="#新增分类项：" class="headerlink" title="新增分类项："></a><strong>新增分类项</strong>：</h4><p>新增分类比较简单，比修改简单，直接绑定的按钮执行add函数将请求的地址与bean一起传给服务器，服务器执行成功返回信息时更新列表。但因为整体用的是==restful风格==，因此axios请求插件在修改里用的是==put==方法，增加用的是==post==方法，对应于后端程序中的==PutMapping==和==PostMapping==，这样可以请求一致的url，但后台可以执行不同的方法</p>
 <p><img src="https://i.loli.net/2019/03/27/5c9b70a362469.png" alt="TIM截图20190327203922.png"></p>
-<h4 id="删除分类项"><a href="#删除分类项" class="headerlink" title="删除分类项"></a><strong>删除分类项</strong></h4><p>跟增加基本无异，但在vue中delete是关键字，在命名delete方法时改成deletebean，并且restful规范删除成功后服务器端要返回null，所以前端进行判断返回的数据是否为null,如果不为空，则打印处数据。</p>
-<pre><code>deleteBean:function (id) {
-  if(!checkDeleteLink())
-      return;
-  var url = this.uri+&quot;/&quot;+id;
-  axios.delete(url).then(function (response) {
-      if (0!=response.data.length) //rest规范删除数据要求要会返回空字符串（控制器类中delete返回null），所以进行判断
-          alert(response.data);
-      else
-          vue.list(0); //是空字符串则调第一页
-  })
-}
-</code></pre><h4 id="分类下的书籍查询："><a href="#分类下的书籍查询：" class="headerlink" title="分类下的书籍查询："></a>分类下的书籍查询：</h4><ol>
-<li><p>由于书籍和分类时多对一的关系，因此在书籍实体类中要用注解标明，如下在category属性上注解@ManyToOne和JoinColumn(name=”cid”)表示外键cid与category关联：</p>
-<pre><code>    @Entity
-public class Book {
-    @Id
-    @Column(name = &quot;id&quot;)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;
-    @ManyToOne
-    @JoinColumn(name = &quot;cid&quot;)
-    private Category category;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-}
-</code></pre></li>
-<li><p>在DAO接口中写一个通过分类查询的方法，这方法命名规则是定死的，按照命名规则写，在==@AutoWired==生成的DAO对象中自动就有这个方法的具体实现。</p>
-<pre><code>public interface BookDAO extends JpaRepository&lt;Book,Integer&gt; {
-    Page&lt;Book&gt; findByCategory(Category category, Pageable pageable);
-    //List&lt;Book&gt; findByNameLike(String keyword,Pageable pageable); //这个是后面用到的搜索
-}
-</code></pre></li>
-<li><p>在service中，bookService.java中，除了增删改查的service方法还要加入一个通过分类名查询的方法。</p>
-<pre><code>public Page4Navigator&lt;Book&gt; list(int cid,int start,int size,int navigatePages ){
-    Category category = categoryService.get(cid); //获取分类对象
-    Sort sort = new Sort(Sort.Direction.DESC,&quot;id&quot;); //设置排序方式的对象
-    Pageable pageable = new PageRequest(start,size,sort); //设置分页的对象
-    Page&lt;Book&gt; pageFromJPA = bookDAO.findByCategory(category,pageable); //DAO中通过分类查询到的结果
-    return new Page4Navigator&lt;&gt;(pageFromJPA,navigatePages);//返回查询的包含分页信息的书籍项
-}
-</code></pre></li>
-<li><p>最后在bookController中接收页面发来的请求信息，来返回分类查询结果</p>
-<pre><code>@GetMapping(&quot;/categories/{cid}/books&quot;)
-public Page4Navigator&lt;Book&gt; list(@PathVariable(&quot;cid&quot;) int cid, @RequestParam(value = &quot;start&quot;,defaultValue = &quot;0&quot;)int start,
-                                 @RequestParam(value = &quot;size&quot;,defaultValue = &quot;5&quot;)int size){
-    start = start&lt;0?0:start;
-    Page4Navigator&lt;Book&gt; page = bookService.list(cid,start,size,5);
-    return page;
-}
-</code></pre></li>
+<h4 id="删除分类项"><a href="#删除分类项" class="headerlink" title="删除分类项"></a><strong>删除分类项</strong></h4><p>跟增加基本无异，但在vue中delete是关键字，在命名delete方法时改成deletebean，并且restful规范删除成功后服务器端要返回null，所以前端进行判断返回的数据是否为null,如果不为空，则打印处数据。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">deleteBean:<span class="function"><span class="keyword">function</span> (<span class="params">id</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!checkDeleteLink())</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">var</span> url = <span class="keyword">this</span>.uri+<span class="string">"/"</span>+id;</span><br><span class="line">  axios.delete(url).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="number">0</span>!=response.data.length) <span class="comment">//rest规范删除数据要求要会返回空字符串（控制器类中delete返回null），所以进行判断</span></span><br><span class="line">          alert(response.data);</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">          vue.list(<span class="number">0</span>); <span class="comment">//是空字符串则调第一页</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="分类下的书籍查询："><a href="#分类下的书籍查询：" class="headerlink" title="分类下的书籍查询："></a>分类下的书籍查询：</h4><ol>
+<li>由于书籍和分类时多对一的关系，因此在书籍实体类中要用注解标明，如下在category属性上注解@ManyToOne和JoinColumn(name=”cid”)表示外键cid与category关联：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"id"</span>)</span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="meta">@ManyToOne</span></span><br><span class="line">    <span class="meta">@JoinColumn</span>(name = <span class="string">"cid"</span>)</span><br><span class="line">    <span class="keyword">private</span> Category category;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Category <span class="title">getCategory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> category;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCategory</span><span class="params">(Category category)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.category = category;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>在DAO接口中写一个通过分类查询的方法，这方法命名规则是定死的，按照命名规则写，在==@AutoWired==生成的DAO对象中自动就有这个方法的具体实现。</li>
 </ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BookDAO</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Book</span>,<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">Page&lt;Book&gt; <span class="title">findByCategory</span><span class="params">(Category category, Pageable pageable)</span></span>;</span><br><span class="line">    <span class="comment">//List&lt;Book&gt; findByNameLike(String keyword,Pageable pageable); //这个是后面用到的搜索</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在service中，bookService.java中，除了增删改查的service方法还要加入一个通过分类名查询的方法。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Page4Navigator&lt;Book&gt; <span class="title">list</span><span class="params">(<span class="keyword">int</span> cid,<span class="keyword">int</span> start,<span class="keyword">int</span> size,<span class="keyword">int</span> navigatePages )</span></span>&#123;</span><br><span class="line">    Category category = categoryService.get(cid); <span class="comment">//获取分类对象</span></span><br><span class="line">    Sort sort = <span class="keyword">new</span> Sort(Sort.Direction.DESC,<span class="string">"id"</span>); <span class="comment">//设置排序方式的对象</span></span><br><span class="line">    Pageable pageable = <span class="keyword">new</span> PageRequest(start,size,sort); <span class="comment">//设置分页的对象</span></span><br><span class="line">    Page&lt;Book&gt; pageFromJPA = bookDAO.findByCategory(category,pageable); <span class="comment">//DAO中通过分类查询到的结果</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Page4Navigator&lt;&gt;(pageFromJPA,navigatePages);<span class="comment">//返回查询的包含分页信息的书籍项</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>最后在bookController中接收页面发来的请求信息，来返回分类查询结果</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/categories/&#123;cid&#125;/books"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Page4Navigator&lt;Book&gt; <span class="title">list</span><span class="params">(@PathVariable(<span class="string">"cid"</span>)</span> <span class="keyword">int</span> cid, @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"start"</span>,defaultValue = <span class="string">"0"</span>)</span><span class="keyword">int</span> start,</span></span><br><span class="line"><span class="function">                                 @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"size"</span>,defaultValue = <span class="string">"5"</span>)</span><span class="keyword">int</span> size)</span>&#123;</span><br><span class="line">    start = start&lt;<span class="number">0</span>?<span class="number">0</span>:start;</span><br><span class="line">    Page4Navigator&lt;Book&gt; page = bookService.list(cid,start,size,<span class="number">5</span>);</span><br><span class="line">    <span class="keyword">return</span> page;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="搜索书籍功能"><a href="#搜索书籍功能" class="headerlink" title="搜索书籍功能"></a>搜索书籍功能</h3><p>搜索书籍功能放在前端的所有书籍页面里面。</p>
 <ol>
 <li><p>在vue的data属性里定义号关键字keyword:””，并与搜索输入框绑定。</p>
-<pre><code>&lt;input type=&quot;text&quot; class=&quot;form-control input-lg col-xs-4&quot; v-model=&quot;keyword&quot;&gt;
-</code></pre></li>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"form-control input-lg col-xs-4"</span> <span class="attr">v-model</span>=<span class="string">"keyword"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>编写搜索请求函数listSearch，与按钮绑定：</p>
-<pre><code>&lt;span @click=&quot;listSearch&quot; class=&quot;input-group-addon btn btn-primary&quot;&gt;
-
-        listSearch:function () {
-            var url = &quot;search?keyword=&quot;+vue.keyword;
-            axios.post(url).then(function (response) {
-                vue.beans = response.data;
-            })
-        },
-</code></pre></li>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;span @click=<span class="string">"listSearch"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"input-group-addon btn btn-primary"</span>&gt;</span><br><span class="line"></span><br><span class="line">        listSearch:<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> url = <span class="string">"search?keyword="</span>+vue.keyword;</span><br><span class="line">            axios.post(url).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">                vue.beans = response.data;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;,</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>在bookDAO中添加方法。名字定义方式findByNameLike,传入的参数为关键字，和分页信息</p>
-<pre><code>public interface BookDAO extends JpaRepository&lt;Book,Integer&gt; {
-    //Page&lt;Book&gt; findByCategory(Category category, Pageable pageable);
-    List&lt;Book&gt; findByNameLike(String keyword,Pageable pageable);
-}
-</code></pre></li>
-<li><p>在service中封装该方法</p>
-<pre><code>public List&lt;Book&gt; search(String name, int start, int size){
-    Sort sort = new Sort(Sort.Direction.DESC,&quot;id&quot;);
-    Pageable page = new PageRequest(start,size,sort);
-    List&lt;Book&gt; books = bookDAO.findByNameLike(&quot;%&quot;+name+&quot;%&quot;,page);//&quot;%&quot;+name+&quot;%&quot;表模糊查询
-    return books;
-}
-</code></pre></li>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BookDAO</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Book</span>,<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">//Page&lt;Book&gt; findByCategory(Category category, Pageable pageable);</span></span><br><span class="line">    <span class="function">List&lt;Book&gt; <span class="title">findByNameLike</span><span class="params">(String keyword,Pageable pageable)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>在service中封装该方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Book&gt; <span class="title">search</span><span class="params">(String name, <span class="keyword">int</span> start, <span class="keyword">int</span> size)</span></span>&#123;</span><br><span class="line">    Sort sort = <span class="keyword">new</span> Sort(Sort.Direction.DESC,<span class="string">"id"</span>);</span><br><span class="line">    Pageable page = <span class="keyword">new</span> PageRequest(start,size,sort);</span><br><span class="line">    List&lt;Book&gt; books = bookDAO.findByNameLike(<span class="string">"%"</span>+name+<span class="string">"%"</span>,page);<span class="comment">//"%"+name+"%"表模糊查询</span></span><br><span class="line">    <span class="keyword">return</span> books;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
 <li><p>在searchController中接收关键字请求信息，返回搜索结果。</p>
 <ul>
 <li><p>[ ]     <em>searchController可以与bookController合并</em></p>
-<pre><code>@Autowired
-BookService bookService;
-@PostMapping(&quot;/search&quot;)
-public Object search(@RequestParam(value = &quot;keyword&quot;) String keyWord){
-    return bookService.search(keyWord,0,20);
-}
-</code></pre></li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">BookService bookService;</span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"/search"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">search</span><span class="params">(@RequestParam(value = <span class="string">"keyword"</span>)</span> String keyWord)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> bookService.search(keyWord,<span class="number">0</span>,<span class="number">20</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 </li>
 </ol>
 <h3 id="登录功能"><a href="#登录功能" class="headerlink" title="登录功能"></a>登录功能</h3><p>登录功能与前面的分类增加功能类似，前端将表单中的信息use.namer和user.password封装一个json数据user，发送给后端，后端通过注解@Requestbody自动将值赋给usr对象，userDAO将这个对象拿进数据库查询看是否在数据库中。判断后返回result对象，判断里面返回的信息是否是查询成功，成功则跳转到分类页面 ，查询结果为null的话则返回失败信息。</p>
-<pre><code>//userDAO添加通过用户名和密码查询的方式
-public interface UserDAO extends JpaRepository&lt;User,Integer&gt; {
-    User getByNameAndPassWord(String name,String password);
-}
-</code></pre><hr>
-<pre><code>//登录页面的login函数请求服务器
-        login:function () {
-            axios.post(vue.uri,this.user).then(function (response) {
-              vue.result =  response.data
-                if (vue.result.code ==1){
-                    location.href=&quot;admin_category_list&quot;
-                }
-                else{
-                    alert(vue.result.message)
-                }
-            })
-        }
-</code></pre><hr>
-<pre><code>//在searchController中将传过来的user的name和password进行查询
-@RestController
-public class LoginController {
-    @Autowired
-    UserService userService;
-    @PostMapping(&quot;/login&quot;)
-    public Object login(@RequestBody User userParam, HttpSession httpSession){
-        User user = userService.get(userParam.getName(),userParam.getPassWord());
-        if (user==null){
-            return Result.fail();
-        } else {
-            httpSession.setAttribute(&quot;user&quot;,userParam);
-            return Result.success();
-        }
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">        <span class="comment">//userDAO添加通过用户名和密码查询的方式</span></span><br><span class="line">        <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserDAO</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">User</span>,<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">            <span class="function">User <span class="title">getByNameAndPassWord</span><span class="params">(String name,String password)</span></span>;</span><br><span class="line">        &#125;</span><br><span class="line">---</span><br><span class="line">        <span class="comment">//登录页面的login函数请求服务器</span></span><br><span class="line">                login:function () &#123;</span><br><span class="line">                    axios.post(vue.uri,<span class="keyword">this</span>.user).then(function (response) &#123;</span><br><span class="line">                      vue.result =  response.data</span><br><span class="line">                        <span class="keyword">if</span> (vue.result.code ==<span class="number">1</span>)&#123;</span><br><span class="line">                            location.href=<span class="string">"admin_category_list"</span></span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span>&#123;</span><br><span class="line">                            alert(vue.result.message)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在searchController中将传过来的user的name和password进行查询</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    UserService userService;</span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/login"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">login</span><span class="params">(@RequestBody User userParam, HttpSession httpSession)</span></span>&#123;</span><br><span class="line">        User user = userService.get(userParam.getName(),userParam.getPassWord());</span><br><span class="line">        <span class="keyword">if</span> (user==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> Result.fail();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            httpSession.setAttribute(<span class="string">"user"</span>,userParam);</span><br><span class="line">            <span class="keyword">return</span> Result.success();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
                 <source type="audio/mpeg" src="">
