@@ -115,19 +115,8 @@ spring.jpa.show-sql=true
 <p><strong>这样可以使得将页面中通用的部分单独拿出来，通过thymeleaf进行镶嵌</strong></p>
 <hr>
 <p>利用thymeleaf将include/admin中的页面嵌入到admin里的页面中，如下：  </p>
-<pre><code>&lt;!DOCTYPE html&gt;
-    &lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
-
-    &lt;head th:include=&quot;include/admin/adminHeader::html(&apos;分类管理&apos;)&quot; &gt;&lt;/head&gt;  //在head中插入adminHeader.html
-    &lt;body&gt;
-    &lt;div th:replace=&quot;include/admin/adminNavigator::html&quot; &gt;&lt;/div&gt;  //在body的一开头插入导航栏adminNavigator.html
-    &lt;div id=&quot;workingplace&quot;&gt;
-        此处省略一万行
-        &lt;div th:replace=&quot;include/admin/adminPage::html&quot; &gt;&lt;/div&gt; //插入分页
-    &lt;/div&gt;
-        &lt;div th:replace=&quot;include/admin/adminFooter::html&quot; &gt;&lt;/div&gt;
-    &lt;/body&gt;
-</code></pre><p>adminHeader内包含所需要的外部js文件已经css文件，代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span> <span class="attr">th:include</span>=<span class="string">"include/admin/adminHeader::html('分类管理')"</span> &gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span>  //在head中插入adminHeader.html</span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">"include/admin/adminNavigator::html"</span> &gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>  //在body的一开头插入导航栏adminNavigator.html</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"workingplace"</span>&gt;</span></span><br><span class="line">    	此处省略一万行</span><br><span class="line">    	<span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">"include/admin/adminPage::html"</span> &gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span> //插入分页</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">"include/admin/adminFooter::html"</span> &gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>adminHeader内包含所需要的外部js文件已经css文件，代码如下：</p>
 <pre><code>&lt;template th:fragment=&quot;html(title)&quot; &gt; 
     &lt;script src=&quot;js/jquery/2.0.0/jquery.min.js&quot;&gt;&lt;/script&gt;
     &lt;link href=&quot;css/bootstrap/3.3.6/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
