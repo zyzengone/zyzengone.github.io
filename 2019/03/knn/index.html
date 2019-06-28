@@ -1,175 +1,184 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html lang>
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Zy&#39;blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://zengyangcloud.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="学习,python,机器学习,knn">
+
+
+    <meta name="description" content="Knn算法算法概述对于一个未知分类的点，在n维空间中与其他所有点计算其欧式距离，取距离最近的k个点（k值自取），在这k个点中选取最多标签的那个分类作为这个未知分类的点的标签。
+需要注意的点
+怎么...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>knn算法 | Zy&#39;blog</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Zy&#39;blog" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
 
     
 
-    
-    <title>knn算法 | Zy&#39;blog</title>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-        <meta name="keywords" content="学习,python,机器学习,knn">
-    
-    <meta name="description" content="Knn算法算法概述对于一个未知分类的点，在n维空间中与其他所有点计算其欧式距离，取距离最近的k个点（k值自取），在这k个点中选取最多标签的那个分类作为这个未知分类的点的标签。 需要注意的点 怎么度量邻近度  我们首先想到的肯定是点和点之间距离。但除了距离，其实我们也可以考虑两个点之间的相似度，越相似，就代表两个点距离越近。同理，我们也可以考虑相异度，越相异，就代表两个点距离越远。其实距离的度量就是">
-<meta name="keywords" content="学习,python,机器学习,knn">
-<meta property="og:type" content="article">
-<meta property="og:title" content="knn算法">
-<meta property="og:url" content="https://zengyangcloud.com/2019/03/knn/index.html">
-<meta property="og:site_name" content="Zy&#39;blog">
-<meta property="og:description" content="Knn算法算法概述对于一个未知分类的点，在n维空间中与其他所有点计算其欧式距离，取距离最近的k个点（k值自取），在这k个点中选取最多标签的那个分类作为这个未知分类的点的标签。 需要注意的点 怎么度量邻近度  我们首先想到的肯定是点和点之间距离。但除了距离，其实我们也可以考虑两个点之间的相似度，越相似，就代表两个点距离越近。同理，我们也可以考虑相异度，越相异，就代表两个点距离越远。其实距离的度量就是">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-28T03:51:29.672Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="knn算法">
-<meta name="twitter:description" content="Knn算法算法概述对于一个未知分类的点，在n维空间中与其他所有点计算其欧式距离，取距离最近的k个点（k值自取），在这k个点中选取最多标签的那个分类作为这个未知分类的点的标签。 需要注意的点 怎么度量邻近度  我们首先想到的肯定是点和点之间距离。但除了距离，其实我们也可以考虑两个点之间的相似度，越相似，就代表两个点距离越近。同理，我们也可以考虑相异度，越相异，就代表两个点距离越远。其实距离的度量就是">
-    
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
 
     
-        <link rel="alternate" href="/" title="Zy&#39;blog" type="application/atom+xml">
-    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
 
     
-
-    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
-    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
-    
-    
-        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
-    
-    
-    
-
 
 </head>
+
 </html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
 <body>
-    <div id="wrap">
-        <header id="header">
-    <div id="header-outer" class="outer">
-        <div class="container">
-            <div class="container-inner">
-                <div id="header-title">
-                    <h1 class="logo-wrap">
-                        <a href="/" class="logo"></a>
-                    </h1>
-                    
-                </div>
-                <div id="header-inner" class="nav-container">
-                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
-                    <div class="nav-container-inner">
-                        <ul id="main-nav">
-                            
-                                <li class="main-nav-list-item">
-                                    <a class="main-nav-list-link" href="/">index.首页</a>
-                                </li>
-                            
-                                <li class="main-nav-list-item">
-                                    <a class="main-nav-list-link" href="/about/index.html">index.关于我</a>
-                                </li>
-                            
-                        </ul>
-                        <nav id="sub-nav">
-                            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Cercar">
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something...">
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'categories',
-            TAGS: 'etiquetes',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="zeng yang">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
     </div>
 </header>
-        <div class="container">
-            <div class="main-body container-inner">
-                <div class="main-body-inner">
-                    <section id="main">
-                        <div class="main-body-header">
-    <h1 class="header">
-    
-    <a class="page-title-link" href="/categories/机器学习/">机器学习</a>
-    </h1>
-</div>
-
-                        <div class="main-body-content">
-                            <article id="post-knn" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-        knn算法
-        </h1>
-    
-
-            </header>
-        
-        
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <a href="/2019/03/knn/" class="article-date">
-            <time datetime="2019-03-29T07:31:03.000Z" itemprop="datePublished">2019-03-29</time>
-        </a>
-    </div>
-
-		
-
-                
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/knn/">knn</a>, <a class="tag-link" href="/tags/python/">python</a>, <a class="tag-link" href="/tags/学习/">学习</a>, <a class="tag-link" href="/tags/机器学习/">机器学习</a>
-    </div>
-
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://zengyangcloud.com">Zy&#39;blog</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>Home</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/前端/"><i class="fa "></i>前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/后端/"><i class="fa "></i>后端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/工具/"><i class="fa "></i>工具</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
             </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="knn算法">
+            
+	            knn算法
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/机器学习/">机器学习</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/knn/">knn</a> <a class="tag-link" href="/tags/python/">python</a> <a class="tag-link" href="/tags/学习/">学习</a> <a class="tag-link" href="/tags/机器学习/">机器学习</a>
+                
+            </span>
+        </span>
+    
+
+    
         
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/03/29</span>
+        </span>
         
-        <div class="article-entry" itemprop="articleBody">
-            <h1 id="Knn算法"><a href="#Knn算法" class="headerlink" title="Knn算法"></a>Knn算法</h1><h2 id="算法概述"><a href="#算法概述" class="headerlink" title="算法概述"></a>算法概述</h2><p>对于一个未知分类的点，在n维空间中与其他所有点计算其欧式距离，取距离最近的k个点（k值自取），在这k个点中选取最多标签的那个分类作为这个未知分类的点的标签。</p>
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h1 id="Knn算法"><a href="#Knn算法" class="headerlink" title="Knn算法"></a>Knn算法</h1><h2 id="算法概述"><a href="#算法概述" class="headerlink" title="算法概述"></a>算法概述</h2><p>对于一个未知分类的点，在n维空间中与其他所有点计算其欧式距离，取距离最近的k个点（k值自取），在这k个点中选取最多标签的那个分类作为这个未知分类的点的标签。</p>
 <h2 id="需要注意的点"><a href="#需要注意的点" class="headerlink" title="需要注意的点"></a>需要注意的点</h2><ol>
 <li>怎么度量邻近度</li>
 </ol>
@@ -186,316 +195,121 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">## python代码实现</span></span><br><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="comment">#########################################</span></span><br><span class="line"><span class="comment"># kNN: k Nearest Neighbors</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  输入:      newInput:  (1xN)的待分类向量</span></span><br><span class="line"><span class="comment">#             dataSet:   (NxM)的训练数据集</span></span><br><span class="line"><span class="comment">#             labels:     训练数据集的类别标签向量</span></span><br><span class="line"><span class="comment">#             k:         近邻数</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出:     可能性最大的分类标签</span></span><br><span class="line"><span class="comment">#########################################</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个数据集，包含2个类别共4个样本</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createDataSet</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 生成一个矩阵，每行表示一个样本</span></span><br><span class="line">    group = array([[<span class="number">1.0</span>, <span class="number">0.9</span>], [<span class="number">1.0</span>, <span class="number">1.0</span>], [<span class="number">0.1</span>, <span class="number">0.2</span>], [<span class="number">0.0</span>, <span class="number">0.1</span>]])</span><br><span class="line">    <span class="comment"># 4个样本分别所属的类别</span></span><br><span class="line">    labels = [<span class="string">'A'</span>, <span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'B'</span>]</span><br><span class="line">    <span class="keyword">return</span> group, labels</span><br><span class="line"></span><br><span class="line"><span class="comment"># KNN分类算法函数定义</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kNNClassify</span><span class="params">(newInput, dataSet, labels, k)</span>:</span></span><br><span class="line">    numSamples = dataSet.shape[<span class="number">0</span>]   <span class="comment"># shape[0]表示行数</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># # step 1: 计算距离[</span></span><br><span class="line">    <span class="comment"># 假如：</span></span><br><span class="line">    <span class="comment"># Newinput：[1,0,2]</span></span><br><span class="line">    <span class="comment"># Dataset:</span></span><br><span class="line">    <span class="comment"># [1,0,1]</span></span><br><span class="line">    <span class="comment"># [2,1,3]</span></span><br><span class="line">    <span class="comment"># [1,0,2]</span></span><br><span class="line">    <span class="comment"># 计算过程即为：</span></span><br><span class="line">    <span class="comment"># 1、求差</span></span><br><span class="line">    <span class="comment"># [1,0,1]       [1,0,2]</span></span><br><span class="line">    <span class="comment"># [2,1,3]   --   [1,0,2]</span></span><br><span class="line">    <span class="comment"># [1,0,2]       [1,0,2]</span></span><br><span class="line">    <span class="comment"># =</span></span><br><span class="line">    <span class="comment"># [0,0,-1]</span></span><br><span class="line">    <span class="comment"># [1,1,1]</span></span><br><span class="line">    <span class="comment"># [0,0,-1]</span></span><br><span class="line">    <span class="comment"># 2、对差值平方</span></span><br><span class="line">    <span class="comment"># [0,0,1]</span></span><br><span class="line">    <span class="comment"># [1,1,1]</span></span><br><span class="line">    <span class="comment"># [0,0,1]</span></span><br><span class="line">    <span class="comment"># 3、将平方后的差值累加</span></span><br><span class="line">    <span class="comment"># [1]</span></span><br><span class="line">    <span class="comment"># [3]</span></span><br><span class="line">    <span class="comment"># [1]</span></span><br><span class="line">    <span class="comment"># 4、将上一步骤的值求开方，即得距离</span></span><br><span class="line">    <span class="comment"># [1]</span></span><br><span class="line">    <span class="comment"># [1.73]</span></span><br><span class="line">    <span class="comment"># [1]</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># ]</span></span><br><span class="line">    <span class="comment"># tile(A, reps): 构造一个矩阵，通过A重复reps次得到</span></span><br><span class="line">    <span class="comment"># the following copy numSamples rows for dataSet</span></span><br><span class="line">    diff = tile(newInput, (numSamples, <span class="number">1</span>)) - dataSet  <span class="comment"># 按元素求差值</span></span><br><span class="line">    squaredDiff = diff ** <span class="number">2</span>  <span class="comment"># 将差值平方</span></span><br><span class="line">    squaredDist = sum(squaredDiff, axis = <span class="number">1</span>)   <span class="comment"># 按行累加</span></span><br><span class="line">    distance = squaredDist ** <span class="number">0.5</span>  <span class="comment"># 将差值平方和求开方，即得距离</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># # step 2: 对距离排序</span></span><br><span class="line">    <span class="comment"># argsort() 返回排序后的索引值</span></span><br><span class="line">    sortedDistIndices = argsort(distance)</span><br><span class="line">    classCount = &#123;&#125; <span class="comment"># define a dictionary (can be append element)</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(k):</span><br><span class="line">        <span class="comment"># # step 3: 选择k个最近邻</span></span><br><span class="line">        voteLabel = labels[sortedDistIndices[i]]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># # step 4: 计算k个最近邻中各类别出现的次数</span></span><br><span class="line">        <span class="comment"># when the key voteLabel is not in dictionary classCount, get()</span></span><br><span class="line">        <span class="comment"># will return 0</span></span><br><span class="line">        classCount[voteLabel] = classCount.get(voteLabel, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># # step 5: 返回出现次数最多的类别标签</span></span><br><span class="line">    maxCount = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> key, value <span class="keyword">in</span> classCount.items():</span><br><span class="line">        <span class="keyword">if</span> value &gt; maxCount:</span><br><span class="line">            maxCount = value</span><br><span class="line">            maxIndex = key</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> maxIndex</span><br></pre></td></tr></table></figure>
 <p>测试文件：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> KNN</span><br><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># 生成数据集和类别标签</span></span><br><span class="line">dataSet, labels = KNN.createDataSet()</span><br><span class="line"><span class="comment"># 定义一个未知类别的数据</span></span><br><span class="line">testX = array([<span class="number">1.2</span>, <span class="number">1.0</span>])</span><br><span class="line">k = <span class="number">3</span></span><br><span class="line"><span class="comment"># 调用分类函数对未知数据分类</span></span><br><span class="line">outputLabel = KNN.kNNClassify(testX, dataSet, labels, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Your input is:"</span>, testX, <span class="string">"and classified to class: "</span>, outputLabel</span><br><span class="line"></span><br><span class="line">testX = array([<span class="number">0.1</span>, <span class="number">0.3</span>])</span><br><span class="line">outputLabel = KNN.kNNClassify(testX, dataSet, labels, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Your input is:"</span>, testX, <span class="string">"and classified to class: "</span>, outputLabel</span><br></pre></td></tr></table></figure>
-        </div>
-        <footer class="article-footer">
-            
-
-
-
-    <a data-url="https://zengyangcloud.com/2019/03/knn/" data-id="cjxfisohu000j4wum5u90a6z3" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
-<script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-        </footer>
     </div>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "author": {
-            "@type": "Person",
-            "name": "zeng yang"
-        },
-        "headline": "knn算法",
-        "image": "https://zengyangcloud.com",
-        "keywords": "学习 python 机器学习 knn",
-        "genre": "机器学习",
-        "datePublished": "2019-03-29",
-        "dateCreated": "2019-03-29",
-        "dateModified": "2019-06-28",
-        "url": "https://zengyangcloud.com/2019/03/knn/",
-        "description": "Knn算法算法概述对于一个未知分类的点，在n维空间中与其他所有点计算其欧式距离，取距离最近的k个点（k值自取），在这k个点中选取最多标签的那个分类作为这个未知分类的点的标签。
-需要注意的点
-怎么度量邻近度
-
-我们首先想到的肯定是点和点之间距离。但除了距离，其实我们也可以考虑两个点之间的相似度，越相似，就代表两个点距离越近。同理，我们也可以考虑相异度，越相异，就代表两个点距离越远。其实距离的度量就是"
-        "wordCount": 965
-    }
-</script>
-
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
 </article>
 
-    <section id="comments">
-    
-        
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
-    
-    </section>
-
-
-
-                        </div>
-                    </section>
-                    <aside id="sidebar">
-    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
-    <div class="sidebar-top">
-        <p>seguir:</p>
-        <ul class="social-links">
-            
-                
-                <li>
-                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-twitter"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-facebook"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-google-plus"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="github" href="https://github.com/zyzengone" target="_blank" rel="noopener">
-                        <i class="icon fa fa-github"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-weibo"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-rss"></i>
-                    </a>
-                </li>
-                
-            
-        </ul>
-    </div>
-    
-        
-<nav id="article-nav">
+<div class="article-nav prev-next-wrap clearfix">
     
     
-        <a href="/2019/03/springboot图书馆前/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">antic</strong>
-        <p class="article-nav-title">web图书馆管理系统前端</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        <a href="/2019/03/springboot图书馆前/" class="next-post btn btn-default" title="web图书馆管理系统前端">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">web图书馆管理系统前端</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
     
-</nav>
+</div>
 
-    
-    <div class="widgets-container">
+
+    <div id="comments">
         
-            
-                
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
 
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">categories</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">1</span></li></ul>
-        </div>
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: true,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: ''.toLowerCase()
+        })
+    </script>
+
+
     </div>
 
 
-            
+
+
+
+                </main>
                 
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">arxius</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">etiquetes</h3>
-        <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/j2ee/">j2ee</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/knn/">knn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习/">学习</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂谈/">杂谈</a><span class="tag-list-count">1</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-float">
-        <h3 class="widget-title">etiqueta cloud</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/Android/" style="font-size: 18px;">Android</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/j2ee/" style="font-size: 10px;">j2ee</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/knn/" style="font-size: 10px;">knn</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/springboot/" style="font-size: 12px;">springboot</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/学习/" style="font-size: 20px;">学习</a> <a href="/tags/机器学习/" style="font-size: 10px;">机器学习</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="http://hexo.io">Hexo</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-            
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">Table of Contents</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Knn算法"><span class="toc-text">Knn算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法概述"><span class="toc-text">算法概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#需要注意的点"><span class="toc-text">需要注意的点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存在的问题"><span class="toc-text">存在的问题</span></a></li></ol></li></ol>
         
     </div>
 </aside>
 
-                </div>
+                
             </div>
         </div>
-        <footer id="footer">
+    </section>
+    <footer class="main-footer">
     <div class="container">
-        <div class="container-inner">
-            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
-            <div class="credit">
-                <h1 class="logo-wrap">
-                    <a href="/" class="logo"></a>
-                </h1>
-                <p>&copy; 2019 zeng yang</p>
-                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
-            </div>
-            <div class="footer-plugins">
-              
-    
-
-
-            </div>
+        <div class="row">
         </div>
     </div>
 </footer>
 
-        
-    
-    <script>
-    var disqus_shortname = '留下足迹';
-    
-    
-    var disqus_url = 'https://zengyangcloud.com/2019/03/knn/';
-    
-    (function() {
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
 
 
 
 
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
     
-        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
-    
-    
-        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
-    
-    
+</div>
 
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
     </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
 </body>
 </html>
