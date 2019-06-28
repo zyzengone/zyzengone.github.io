@@ -314,11 +314,11 @@
       <h3 class="title">Social</h3> 
         <div class="content social">
             
-	            <a href="//github.com/shenliyang" rel="external nofollow" title="Github" target="_blank">
+	            <a href="//github.com/zyzengone" rel="external nofollow" title="Github" target="_blank">
 			    	<i class="git fa fa-git"></i>
 			    </a>
             
-	            <a href="mailto:snippet@91h5.cc" rel="external nofollow" title="邮箱" target="_blank">
+	            <a href="mailto:1178574705@qq.com" rel="external nofollow" title="邮箱" target="_blank">
 			    	<i class="envelope-o fa fa-envelope-o"></i>
 			    </a>
             
@@ -364,7 +364,9 @@
     <h3 class="title">Tag Cloud</h3>
     <div class="content tag-cloud">
         
-            <a href="/tags/Android/" style="font-size: 18px;">Android</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/j2ee/" style="font-size: 10px;">j2ee</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/knn/" style="font-size: 10px;">knn</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/springboot/" style="font-size: 12px;">springboot</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/学习/" style="font-size: 20px;">学习</a> <a href="/tags/机器学习/" style="font-size: 10px;">机器学习</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a>
+            <canvas width="300" height="300" id="tag-cloud-3d">
+                <a href="/tags/Android/" style="font-size: 18px;">Android</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/j2ee/" style="font-size: 10px;">j2ee</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/knn/" style="font-size: 10px;">knn</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/springboot/" style="font-size: 12px;">springboot</a> <a href="/tags/web/" style="font-size: 14px;">web</a> <a href="/tags/学习/" style="font-size: 20px;">学习</a> <a href="/tags/机器学习/" style="font-size: 10px;">机器学习</a> <a href="/tags/杂谈/" style="font-size: 10px;">杂谈</a>
+            </canvas>
         
     </div>
   </div>
@@ -430,6 +432,28 @@
 	<script src="/js/search.js?rev=@@hash"></script>
 
 
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
 
 
 
