@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang>
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!--Setting-->
     <meta charset="UTF-8">
@@ -73,6 +73,21 @@ Android工程目录的res/layout中编写xm...">
 
     
 
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
 </head>
 
 </html>
@@ -113,7 +128,7 @@ Android工程目录的res/layout中编写xm...">
                     <ul class="menu">
                         
                             <li role="presentation" class="text-center">
-                                <a href="/"><i class="fa "></i>Home</a>
+                                <a href="/"><i class="fa "></i>首页</a>
                             </li>
                         
                             <li role="presentation" class="text-center">
@@ -163,6 +178,11 @@ Android工程目录的res/layout中编写xm...">
             <i class="fa fa-clock-o"></i>
             <span class="date-meta">2018/10/25</span>
         </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
         
     
 </div>
@@ -239,7 +259,7 @@ Android工程目录的res/layout中编写xm...">
         repo: "zyzengone.github.io",
         owner: "zyzengone",
         admin: "[zyzengone]",
-        id: "window.location.pathname" || pathId || location.pathname,
+        id: "" || pathId || location.pathname,
         distractionFreeMode: true
     });
     gitalk.render('gitalk-container');
@@ -256,7 +276,7 @@ Android工程目录的res/layout中编写xm...">
                 
                     <aside id="article-toc" role="navigation" class="col-md-4">
     <div class="widget">
-        <h3 class="title">Table of Contents</h3>
+        <h3 class="title">文章目录</h3>
         
             <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Android界面UI控制"><span class="toc-text">Android界面UI控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android界面控制"><span class="toc-text">Android界面控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xml布局文件配置："><span class="toc-text">xml布局文件配置：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#完全使用java代码控制界面"><span class="toc-text">完全使用java代码控制界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#混合控制"><span class="toc-text">混合控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li></ol>
         
@@ -286,6 +306,16 @@ Android工程目录的res/layout中编写xm...">
         <div class="row">
             <div class="col-sm-12">
                 <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
     
 </div>
 
@@ -330,6 +360,8 @@ Android工程目录的res/layout中编写xm...">
     </script>
 
 
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 <script src="/js/app.js?rev=@@hash"></script>

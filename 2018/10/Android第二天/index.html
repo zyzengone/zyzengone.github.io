@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang>
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!--Setting-->
     <meta charset="UTF-8">
@@ -70,6 +70,21 @@ android:ingnoreGrivaty
 
     
 
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
 </head>
 
 </html>
@@ -110,7 +125,7 @@ android:ingnoreGrivaty
                     <ul class="menu">
                         
                             <li role="presentation" class="text-center">
-                                <a href="/"><i class="fa "></i>Home</a>
+                                <a href="/"><i class="fa "></i>首页</a>
                             </li>
                         
                             <li role="presentation" class="text-center">
@@ -160,6 +175,11 @@ android:ingnoreGrivaty
             <i class="fa fa-clock-o"></i>
             <span class="date-meta">2018/10/26</span>
         </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
         
     
 </div>
@@ -226,7 +246,7 @@ android:ingnoreGrivaty
         repo: "zyzengone.github.io",
         owner: "zyzengone",
         admin: "[zyzengone]",
-        id: "window.location.pathname" || pathId || location.pathname,
+        id: "" || pathId || location.pathname,
         distractionFreeMode: true
     });
     gitalk.render('gitalk-container');
@@ -243,7 +263,7 @@ android:ingnoreGrivaty
                 
                     <aside id="article-toc" role="navigation" class="col-md-4">
     <div class="widget">
-        <h3 class="title">Table of Contents</h3>
+        <h3 class="title">文章目录</h3>
         
             <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android布局"><span class="toc-text">Android布局</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、relativeLayout-相对布局"><span class="toc-text">一、relativeLayout 相对布局</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两个属性"><span class="toc-text">两个属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件属性"><span class="toc-text">组件属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、LinearLayout-线性布局管理器"><span class="toc-text">二、LinearLayout 线性布局管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两个属性-1"><span class="toc-text">两个属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、FrameLayout-帧布局管理器"><span class="toc-text">三、FrameLayout 帧布局管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两个属性-2"><span class="toc-text">两个属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、GridLayout-网格布局管理器"><span class="toc-text">四、GridLayout 网格布局管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#两个属性-3"><span class="toc-text">两个属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件内属性"><span class="toc-text">组件内属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、布局管理器的嵌套"><span class="toc-text">五、布局管理器的嵌套</span></a></li></ol></li></ol>
         
@@ -273,6 +293,16 @@ android:ingnoreGrivaty
         <div class="row">
             <div class="col-sm-12">
                 <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
     
 </div>
 
@@ -317,6 +347,8 @@ android:ingnoreGrivaty
     </script>
 
 
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 <script src="/js/app.js?rev=@@hash"></script>

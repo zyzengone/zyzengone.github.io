@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang>
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!--Setting-->
     <meta charset="UTF-8">
@@ -72,6 +72,21 @@ DA...">
 
     
 
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
 </head>
 
 </html>
@@ -112,7 +127,7 @@ DA...">
                     <ul class="menu">
                         
                             <li role="presentation" class="text-center">
-                                <a href="/"><i class="fa "></i>Home</a>
+                                <a href="/"><i class="fa "></i>首页</a>
                             </li>
                         
                             <li role="presentation" class="text-center">
@@ -162,6 +177,11 @@ DA...">
             <i class="fa fa-clock-o"></i>
             <span class="date-meta">2019/03/27</span>
         </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
         
     
 </div>
@@ -303,7 +323,7 @@ DA...">
         repo: "zyzengone.github.io",
         owner: "zyzengone",
         admin: "[zyzengone]",
-        id: "window.location.pathname" || pathId || location.pathname,
+        id: "" || pathId || location.pathname,
         distractionFreeMode: true
     });
     gitalk.render('gitalk-container');
@@ -320,7 +340,7 @@ DA...">
                 
                     <aside id="article-toc" role="navigation" class="col-md-4">
     <div class="widget">
-        <h3 class="title">Table of Contents</h3>
+        <h3 class="title">文章目录</h3>
         
             <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#后端部分"><span class="toc-text">后端部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分类管理"><span class="toc-text">分类管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#分类表格的实现流程如下："><span class="toc-text">分类表格的实现流程如下：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分类名称修改流程："><span class="toc-text">分类名称修改流程：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#新增分类项："><span class="toc-text">新增分类项：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除分类项"><span class="toc-text">删除分类项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分类下的书籍查询："><span class="toc-text">分类下的书籍查询：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搜索书籍功能"><span class="toc-text">搜索书籍功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登录功能"><span class="toc-text">登录功能</span></a></li></ol></li></ol>
         
@@ -350,6 +370,16 @@ DA...">
         <div class="row">
             <div class="col-sm-12">
                 <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
     
 </div>
 
@@ -394,6 +424,8 @@ DA...">
     </script>
 
 
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 <script src="/js/app.js?rev=@@hash"></script>

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang>
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
     <!--Setting-->
     <meta charset="UTF-8">
@@ -70,6 +70,21 @@ new-&gt;other-&gt;Dynamic Web Project
 
     
 
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
 </head>
 
 </html>
@@ -110,7 +125,7 @@ new-&gt;other-&gt;Dynamic Web Project
                     <ul class="menu">
                         
                             <li role="presentation" class="text-center">
-                                <a href="/"><i class="fa "></i>Home</a>
+                                <a href="/"><i class="fa "></i>首页</a>
                             </li>
                         
                             <li role="presentation" class="text-center">
@@ -160,6 +175,11 @@ new-&gt;other-&gt;Dynamic Web Project
             <i class="fa fa-clock-o"></i>
             <span class="date-meta">2018/10/27</span>
         </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
         
     
 </div>
@@ -221,7 +241,7 @@ new-&gt;other-&gt;Dynamic Web Project
         repo: "zyzengone.github.io",
         owner: "zyzengone",
         admin: "[zyzengone]",
-        id: "window.location.pathname" || pathId || location.pathname,
+        id: "" || pathId || location.pathname,
         distractionFreeMode: true
     });
     gitalk.render('gitalk-container');
@@ -238,7 +258,7 @@ new-&gt;other-&gt;Dynamic Web Project
                 
                     <aside id="article-toc" role="navigation" class="col-md-4">
     <div class="widget">
-        <h3 class="title">Table of Contents</h3>
+        <h3 class="title">文章目录</h3>
         
             <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomcat服务器在eclipse中的配置"><span class="toc-text">Tomcat服务器在eclipse中的配置</span></a></li></ol>
         
@@ -268,6 +288,16 @@ new-&gt;other-&gt;Dynamic Web Project
         <div class="row">
             <div class="col-sm-12">
                 <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
     
 </div>
 
@@ -312,6 +342,8 @@ new-&gt;other-&gt;Dynamic Web Project
     </script>
 
 
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 <script src="/js/app.js?rev=@@hash"></script>
