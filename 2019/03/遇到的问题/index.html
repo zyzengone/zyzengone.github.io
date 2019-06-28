@@ -300,26 +300,7 @@ public Object login(@RequestBody User userParam, HttpSession httpSession){
 
     <div id="comments">
         
-	<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.css">
-<script src="https://cdn.bootcss.com/gitalk/1.4.1/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-<script type="text/javascript">
-    var pathArr = location.pathname.split("/");
-    var pathId = pathArr[pathArr.length-1];
-    var gitalk = new Gitalk({
-        // Gitalk配置
-        clientID: "46dde082d2d1ad1e6085",
-        clientSecret: "a395da3af101f8ba98514155f9dc395205cfd179",
-        repo: "zyzengone.github.io",
-        owner: "zyzengone",
-        admin: "[zyzengone]",
-        id: "location.pathname" || pathId || location.pathname,
-        distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-</script>
-
+   <p>评论系统未开启，无法评论！</p>
 
     </div>
 
