@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Zy&#39;blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="https://zengyangcloud.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="学习,Android">
+
+
+    <meta name="description" content="进度条组件
+布局文件12345678910&lt;ProgressBar    android:id=" @+id progressbar1" style="@android:style/W...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>高级组件 | Zy&#39;blog</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Zy&#39;blog" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="zeng yang">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://zengyangcloud.com">Zy&#39;blog</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>Home</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/前端/"><i class="fa "></i>前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/后端/"><i class="fa "></i>后端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/工具/"><i class="fa "></i>工具</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="高级组件">
+            
+	            高级组件
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Android/">Android</a> <a class="tag-link" href="/tags/学习/">学习</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/10/29</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="进度条组件"><a href="#进度条组件" class="headerlink" title="进度条组件"></a>进度条组件</h2><ul>
+<li>布局文件<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;ProgressBar</span><br><span class="line">    android:id=<span class="string">"@+id/progressBar1"</span></span><br><span class="line">    style=<span class="string">"@android:style/Widget.ProgressBar.Horizontal"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"25dp"</span></span><br><span class="line">    android:layout_alignParentBottom=<span class="string">"true"</span></span><br><span class="line">    android:layout_alignParentLeft=<span class="string">"true"</span></span><br><span class="line">    android:layout_alignParentStart=<span class="string">"true"</span></span><br><span class="line">    android:layout_marginBottom=<span class="string">"60dp"</span></span><br><span class="line">    android:<span class="built_in">max</span>=<span class="string">"100"</span> /&gt;  <span class="comment">//设置最大值</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>样式通过style属性进行设置：<br><img src="/img/进度条.png" alt="样式"></p>
+<ul>
+<li>java代码<blockquote>
+<p>使用handler发送消息来控制进度条完成</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">private</span> ProgressBar horizonP;            <span class="comment">//水平进度条</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mProgressStatus = <span class="number">0</span>;        <span class="comment">//完成进度</span></span><br><span class="line">    <span class="keyword">private</span> Handler mHandler;            <span class="comment">//声明一个用于处理消息的Handler类的对象</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,</span><br><span class="line">                WindowManager.LayoutParams.FLAG_FULLSCREEN); <span class="comment">//设置全屏显示</span></span><br><span class="line">        horizonP = (ProgressBar) findViewById(R.id.progressBar1);    <span class="comment">//获取水平进度条</span></span><br><span class="line">        mHandler = <span class="keyword">new</span> Handler() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (msg.what == <span class="number">0x111</span>) &#123;</span><br><span class="line">                    horizonP.setProgress(mProgressStatus);    <span class="comment">//更新进度</span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"耗时操作已经完成"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                    horizonP.setVisibility(View.GONE);    <span class="comment">//设置进度条不显示，并且不占用空间</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    mProgressStatus = doWork();    <span class="comment">//获取耗时操作完成的百分比</span></span><br><span class="line">                    Message m = <span class="keyword">new</span> Message();</span><br><span class="line">                    <span class="keyword">if</span> (mProgressStatus &lt; <span class="number">100</span>) &#123;</span><br><span class="line">                        m.what = <span class="number">0x111</span>;</span><br><span class="line">                        mHandler.sendMessage(m);    <span class="comment">//发送信息</span></span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        m.what = <span class="number">0x110</span>;</span><br><span class="line">                        mHandler.sendMessage(m);    <span class="comment">//发送消息</span></span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//模拟一个耗时操作</span></span><br><span class="line">            <span class="keyword">private</span> <span class="function"><span class="keyword">int</span> <span class="title">doWork</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                mProgressStatus += Math.random() * <span class="number">10</span>;    <span class="comment">//改变完成进度</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">200</span>);        <span class="comment">//线程休眠200毫秒</span></span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> mProgressStatus;    <span class="comment">//返回新的进度</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();    <span class="comment">//开启一个线程</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<h2 id="拖动条组件"><a href="#拖动条组件" class="headerlink" title="拖动条组件"></a>拖动条组件</h2><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;SeekBar</span><br><span class="line">    android:id=<span class="string">"@+id/seekbar"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">    android:<span class="built_in">max</span>=<span class="string">"255"</span>   <span class="comment">//最大值</span></span><br><span class="line">    android:progress=<span class="string">"255"</span>  <span class="comment">//默认值</span></span><br><span class="line">    /&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>java代码 实现通过拉动拖动条改变图片透明度：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> ImageView image;          <span class="comment">//定义图片</span></span><br><span class="line">    <span class="keyword">private</span> SeekBar seekBar;          <span class="comment">//定义拖动条</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        image = (ImageView) findViewById(R.id.image);    <span class="comment">//获取图片</span></span><br><span class="line">        seekBar = (SeekBar) findViewById(R.id.seekbar);    <span class="comment">//获取拖动条</span></span><br><span class="line">        <span class="comment">//为拖动条设置监听事件</span></span><br><span class="line">        seekBar.setOnSeekBarChangeListener(<span class="keyword">new</span> SeekBar.OnSeekBarChangeListener() &#123;</span><br><span class="line">            <span class="comment">// 当拖动条的滑块位置发生改变时触发该方法</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressChanged</span><span class="params">(SeekBar arg0, <span class="keyword">int</span> progress,</span></span></span><br><span class="line"><span class="function"><span class="params">                                          <span class="keyword">boolean</span> fromUser)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// 动态改变图片的透明度</span></span><br><span class="line">                image.setImageAlpha(progress);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStartTrackingTouch</span><span class="params">(SeekBar bar)</span> </span>&#123;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStopTrackingTouch</span><span class="params">(SeekBar bar)</span> </span>&#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="图像视图"><a href="#图像视图" class="headerlink" title="图像视图"></a>图像视图</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.mingrisoft;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.view.MotionEvent;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.ViewGroup;</span><br><span class="line"><span class="keyword">import</span> android.view.WindowManager;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.AnimationUtils;</span><br><span class="line"><span class="keyword">import</span> android.widget.ImageSwitcher;</span><br><span class="line"><span class="keyword">import</span> android.widget.ImageView;</span><br><span class="line"><span class="keyword">import</span> android.widget.ViewSwitcher;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] arrayPictures = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;R.mipmap.img01, R.mipmap.img02, R.mipmap.img03,</span><br><span class="line">            R.mipmap.img04, R.mipmap.img05, R.mipmap.img06,</span><br><span class="line">            R.mipmap.img07, R.mipmap.img08, R.mipmap.img09,</span><br><span class="line">    &#125;;<span class="comment">// 声明并初始化一个保存要显示图像ID的数组</span></span><br><span class="line">    <span class="keyword">private</span> ImageSwitcher imageSwitcher; <span class="comment">// 声明一个图像切换器对象</span></span><br><span class="line">    <span class="comment">//要显示的图片在图片数组中的Index</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pictutureIndex;</span><br><span class="line">    <span class="comment">//左右滑动时手指按下的X坐标</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> touchDownX;</span><br><span class="line">    <span class="comment">//左右滑动时手指松开的X坐标</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> touchUpX;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,</span><br><span class="line">                WindowManager.LayoutParams.FLAG_FULLSCREEN);<span class="comment">//设置全屏显示</span></span><br><span class="line"></span><br><span class="line">        imageSwitcher = (ImageSwitcher) findViewById(R.id.imageswitcher); <span class="comment">// 获取图像切换器</span></span><br><span class="line">        <span class="comment">//为ImageSwicher设置Factory，用来为ImageSwicher制造ImageView</span></span><br><span class="line">        imageSwitcher.setFactory(<span class="keyword">new</span> ViewSwitcher.ViewFactory() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> View <span class="title">makeView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                ImageView imageView = <span class="keyword">new</span> ImageView(MainActivity.<span class="keyword">this</span>); <span class="comment">// 实例化一个ImageView类的对象</span></span><br><span class="line">                imageView.setImageResource(arrayPictures[pictutureIndex]);<span class="comment">//根据id加载默认显示图片</span></span><br><span class="line">                <span class="keyword">return</span> imageView; <span class="comment">// 返回imageView对象</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        imageSwitcher.setOnTouchListener(<span class="keyword">new</span> View.OnTouchListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View v, MotionEvent event)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (event.getAction() == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">                    <span class="comment">//取得左右滑动时手指按下的X坐标</span></span><br><span class="line">                    touchDownX = event.getX();</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.getAction() == MotionEvent.ACTION_UP) &#123;</span><br><span class="line">                    <span class="comment">//取得左右滑动时手指松开的X坐标</span></span><br><span class="line">                    touchUpX = event.getX();</span><br><span class="line">                    <span class="comment">//从左往右，看下一张</span></span><br><span class="line">                    <span class="keyword">if</span> (touchUpX - touchDownX &gt; <span class="number">100</span>) &#123;</span><br><span class="line">                        <span class="comment">//取得当前要看的图片的index</span></span><br><span class="line">                        pictutureIndex = pictutureIndex == <span class="number">0</span> ? arrayPictures.length - <span class="number">1</span> : pictutureIndex - <span class="number">1</span>;</span><br><span class="line">                        <span class="comment">//设置图片切换的动画</span></span><br><span class="line">                        imageSwitcher.setInAnimation(AnimationUtils.loadAnimation(MainActivity.<span class="keyword">this</span>, R.anim.slide_in_left));</span><br><span class="line">                        imageSwitcher.setOutAnimation(AnimationUtils.loadAnimation(MainActivity.<span class="keyword">this</span>, R.anim.slide_out_right));</span><br><span class="line">                        <span class="comment">//设置当前要看的图片</span></span><br><span class="line">                        imageSwitcher.setImageResource(arrayPictures[pictutureIndex]);</span><br><span class="line">                        <span class="comment">//从右往左，看上一张</span></span><br><span class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (touchDownX - touchUpX &gt; <span class="number">100</span>) &#123;</span><br><span class="line">                        <span class="comment">//取得当前要看的图片index</span></span><br><span class="line">                        pictutureIndex = pictutureIndex == arrayPictures.length - <span class="number">1</span> ? <span class="number">0</span> : pictutureIndex + <span class="number">1</span>;</span><br><span class="line">                        <span class="comment">//设置切换动画</span></span><br><span class="line">                        imageSwitcher.setOutAnimation(AnimationUtils.loadAnimation(MainActivity.<span class="keyword">this</span>, R.anim.slide_out_left));</span><br><span class="line">                        imageSwitcher.setInAnimation(AnimationUtils.loadAnimation(MainActivity.<span class="keyword">this</span>, R.anim.slide_in_right));</span><br><span class="line">                        <span class="comment">//设置要看的图片</span></span><br><span class="line">                        imageSwitcher.setImageResource(arrayPictures[pictutureIndex]);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="图像切换器"><a href="#图像切换器" class="headerlink" title="图像切换器"></a>图像切换器</h2>
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/10/android备忘录app开发/" class="pre-post btn btn-default" title="Android备忘录开发">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Android备忘录开发</span>
+        </a>
+    
+    
+        <a href="/2018/10/Android第四天/" class="next-post btn btn-default" title="普通组件">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">普通组件</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: true,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: ''.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">Table of Contents</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#进度条组件"><span class="toc-text">进度条组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拖动条组件"><span class="toc-text">拖动条组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图像视图"><span class="toc-text">图像视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图像切换器"><span class="toc-text">图像切换器</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>
